@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WordInEnglish.View.Home">
+    <ContentPage.Content>
+
+        <Grid
+                ColumnDefinitions="*"
+                RowDefinitions="*,*,40,*,*,70">
+
+            <StackLayout
+
+                    Grid.Row="0"
+                    Grid.Column="0">
+                <Grid
+                            Margin="10"
+                            ColumnDefinitions="70,60,*,*,10"
+                            RowDefinitions="60">
+                    <Frame
+                            Background="Orange"
+                            HasShadow="True"
+                            CornerRadius="20"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                        <Label
+                             VerticalTextAlignment="Center"
+                             FontSize="18"
+                             TextColor="White"
+                             FontAttributes="Bold"
+                             FontFamily="angrybirds"
+                             Text="{Binding LabelPoints}"
+                             HorizontalTextAlignment="Center" />
+                    </Frame>
+
+                    <Frame
+                            Background="{Binding ScoreColor}"
+                            HasShadow="True"
+                            CornerRadius="20"
+                            Grid.Row="0"
+                            Grid.Column="3">
+                        <Label
+                                FontFamily="angrybirds"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                TextColor="Black"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding LabelCounter}" />
+                    </Frame>
+                </Grid>
+            </StackLayout>
+
+            <StackLayout
+                     VerticalOptions="Center"
+                     Grid.Row="1"
+                     Grid.Column="0">
+                <Frame
+                        HasShadow="True"
+                        Margin="20,0,20,0"
+                        CornerRadius="20">
+                    <Label
+                            TextColor="Black"
+                            TextTransform="Uppercase"
+                            FontSize="20"
+                            FontFamily="AB"
+                            FontAttributes="Bold"
+                            Text="{Binding LabelWord}"
+                            HorizontalOptions="Center" />
+                </Frame>
+            </StackLayout>
+
+            <StackLayout
+                        HorizontalOptions="Center"
+                        Grid.Row="2"
+                        Grid.Column="0">
+                <Label
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    TextColor="Black"
+                    FontFamily="angrybirds"
+                    TextTransform="Uppercase"
+                    Text="{Binding WordCorrect}" />
+            </StackLayout>
+
+            <StackLayout
+                        VerticalOptions="Center"
+                        Grid.Row="3"
+                        Grid.Column="0">
+                <Frame
+                        HasShadow="True"
+                        CornerRadius="20"
+                        Margin="20,0,20,0">
+                    <Entry
+                            FontFamily="angrybirds"
+                            Placeholder="Answer"
+                            FontAttributes="Bold"
+                             Text="{Binding EntryWord}" />
+                </Frame>
+            </StackLayout>
+
+            <StackLayout
+                     Margin="40"
+                     VerticalOptions="Center"
+                     Grid.Row="4"
+                     Grid.Column="0">
+                <Button
+                        Margin="20,0,20,0"
+                        CornerRadius="10"
+                        Background="Orange"
+                        TextColor="White"
+                        FontFamily="angrybirds"
+                        FontSize="20"
+                        Command="{Binding btnCheck}"
+                        Text="CHECK YOUR WORD" />
+            </StackLayout>
+
+            <StackLayout
+                    VerticalOptions="Center"
+                    HeightRequest="70"
+                    Background="silver"
+                     Grid.Row="5"
+                     Grid.Column="0">
+                <Label
+                        FontFamily="angrybirds"
+                        HorizontalTextAlignment="Center"
+                        Text="Anuncio" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
