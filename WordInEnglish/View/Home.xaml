@@ -88,6 +88,9 @@
                         Background="Orange"
                         CornerRadius="20"
                         HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding btnCheck}" />
+                        </Frame.GestureRecognizers>
                         <Label
                             FontAttributes="Bold"
                             HorizontalOptions="Center"
@@ -121,9 +124,7 @@
                             TextColor="White"
                             VerticalOptions="Center" />
                     </Frame>
-
                 </Grid>
-
             </StackLayout>
 
             <!--<StackLayout

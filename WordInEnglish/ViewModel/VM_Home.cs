@@ -172,6 +172,7 @@ namespace WordInEnglish.ViewModel
         public async Task CheckWord()
         {
             var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+            await DisplayAlert("Word", Word.MyWord, "Ok");
         }
 
         public async Task SelectWord()
@@ -183,8 +184,6 @@ namespace WordInEnglish.ViewModel
             var generateWordTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
 
             var generateWordThree = await _Context.WordsES.Where(word => word.IdES == numsRandom[2]).FirstOrDefaultAsync();
-
-
 
             var random = new Random();
 
@@ -208,7 +207,6 @@ namespace WordInEnglish.ViewModel
                 WordTwo = generateWordTwo.MyWord.ToUpper();
                 WordThree = generateWordOne.MyWord.ToUpper();
             }
-
         }
 
         public List<int> numAletory(int count)
