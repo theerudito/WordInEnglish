@@ -54,7 +54,7 @@ namespace WordInEnglish.ViewModel
             set
             {
                 _labelPoints = value;
-                OnPropertyChanged(nameof(LabelPoints));
+                OnPropertyChanged();
             }
         }
 
@@ -63,8 +63,8 @@ namespace WordInEnglish.ViewModel
             get { return _labelCounter; }
             set
             {
-                SetValue(ref _labelCounter, value);
-                OnPropertyChanged(nameof(LabelCounter));
+                _labelCounter = value;
+                OnPropertyChanged();
             }
         }
 
@@ -74,7 +74,7 @@ namespace WordInEnglish.ViewModel
             set
             {
                 _labelTextWord = value;
-                OnPropertyChanged(nameof(LabelWord));
+                OnPropertyChanged();
             }
         }
 
@@ -83,8 +83,8 @@ namespace WordInEnglish.ViewModel
             get { return _inputTextEntry; }
             set
             {
-                SetValue(ref _inputTextEntry, value);
-                OnPropertyChanged(nameof(EntryWord));
+                _inputTextEntry = value;
+                OnPropertyChanged();
             }
         }
 
@@ -93,8 +93,8 @@ namespace WordInEnglish.ViewModel
             get { return _colorScore; }
             set
             {
-                SetValue(ref _colorScore, value);
-                OnPropertyChanged(nameof(ScoreColor));
+                _colorScore = value;
+                OnPropertyChanged();
             }
         }
 
@@ -103,8 +103,8 @@ namespace WordInEnglish.ViewModel
             get { return _trying; }
             set
             {
-                SetValue(ref _trying, value);
-                OnPropertyChanged(nameof(Trying));
+                _trying = value;
+                OnPropertyChanged();
             }
         }
 
@@ -113,8 +113,8 @@ namespace WordInEnglish.ViewModel
             get { return _labeltextResult; }
             set
             {
-                SetValue(ref _colorScore, value);
-                OnPropertyChanged(nameof(WordCorrect));
+                _colorScore = value;
+                OnPropertyChanged();
             }
         }
 
