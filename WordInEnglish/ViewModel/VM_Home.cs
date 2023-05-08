@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,6 +24,8 @@ namespace WordInEnglish.ViewModel
 
             GenerateWord();
 
+            SelectWord();
+
             Score();
         }
 
@@ -36,7 +39,11 @@ namespace WordInEnglish.ViewModel
         private string _labeltextResult;
         private bool _reponseCorrectText;
         private string _inputTextEntry;
-        private int IdWord;
+        private int _IdWord;
+
+        private string _wordOne;
+        private string _wordTwo;
+        private string _wordThree;
 
         private int _labelCounter;
         private static int _points = 0;
@@ -118,53 +125,109 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public int IdWord
+        {
+            get { return _IdWord; }
+            set
+            {
+                _IdWord = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string WordOne
+        {
+            get { return _wordOne; }
+            set
+            {
+                _wordOne = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string WordTwo
+        {
+            get { return _wordTwo; }
+            set
+            {
+                _wordTwo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string WordThree
+        {
+            get { return _wordThree; }
+            set
+            {
+                _wordThree = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion OBJECTS
 
         #region METHODS
 
         public async Task CheckWord()
         {
-            var query = await _Context.WordsES.FindAsync(IdWord);
+            var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+        }
 
-            if (query != null)
+        public async Task SelectWord()
+        {
+            List<int> numsRandom = numAletory(3);
+
+            var generateWordOne = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+
+            var generateWordTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
+
+            var generateWordThree = await _Context.WordsES.Where(word => word.IdES == numsRandom[2]).FirstOrDefaultAsync();
+
+
+
+            var random = new Random();
+
+            var num = random.Next(1, 4);
+
+            if (num == 1)
             {
-                if (query.MyWord == EntryWord)
+                WordOne = generateWordOne.MyWord.ToUpper();
+                WordTwo = generateWordTwo.MyWord.ToUpper();
+                WordThree = generateWordThree.MyWord.ToUpper();
+            }
+            else if (num == 2)
+            {
+                WordOne = generateWordTwo.MyWord.ToUpper();
+                WordTwo = generateWordOne.MyWord.ToUpper();
+                WordThree = generateWordThree.MyWord.ToUpper();
+            }
+            else if (num == 3)
+            {
+                WordOne = generateWordThree.MyWord.ToUpper();
+                WordTwo = generateWordTwo.MyWord.ToUpper();
+                WordThree = generateWordOne.MyWord.ToUpper();
+            }
+
+        }
+
+        public List<int> numAletory(int count)
+        {
+            var quantityOnTable = _Context.WordsEN.ToListAsync().Result.Count;
+
+            var list = new List<int>();
+
+            var random = new Random();
+
+            while (list.Count < count)
+            {
+                var num = random.Next(1, quantityOnTable);
+                if (!list.Contains(num))
                 {
-                    await DisplayAlert("info", "Correcto", "ok");
-
-                    _reponseCorrectText = true;
-
-                    WordCorrect = query.MyWord;
-
-                    Score();
-
-                    await GenerateWord();
-                }
-                else
-                {
-                    await DisplayAlert("error", "Incorrecto", "ok");
-
-                    _reponseCorrectText = false;
-
-                    Score();
-
-                    Trying++;
-
-                    if (Trying == 3)
-                    {
-                        Score();
-
-                        WordCorrect = query.MyWord;
-
-                        Trying = 0;
-                    }
-
-                    if (Trying == 0)
-                    {
-                        await GenerateWord();
-                    }
+                    list.Add(num);
                 }
             }
+            return list;
         }
 
         public void Score()
@@ -176,21 +239,14 @@ namespace WordInEnglish.ViewModel
         {
             try
             {
+                List<int> numsRandom = numAletory(3);
                 _reponseCorrectText = true;
 
-                WordCorrect = "?";
-
-                var quantityOnTable = _Context.WordsEN.ToListAsync().Result.Count;
-
-                Random random = new Random();
-
-                int numRandom = random.Next(1, quantityOnTable);
-
-                var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numRandom).FirstOrDefaultAsync();
+                var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numsRandom[0]).FirstOrDefaultAsync();
 
                 IdWord = generateWord.IdEN;
 
-                LabelWord = generateWord.MyWord;
+                LabelWord = generateWord.MyWord.ToUpper();
             }
             catch (Exception ex)
             {
