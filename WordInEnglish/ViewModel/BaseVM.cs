@@ -91,15 +91,5 @@ namespace WordInEnglish.ViewModel
 
             OnPropertyChanged(propertyName);
         }
-
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            PropertyChanged?.Invoke(this, args);
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
