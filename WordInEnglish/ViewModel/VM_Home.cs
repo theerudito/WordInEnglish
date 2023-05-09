@@ -20,7 +20,7 @@ namespace WordInEnglish.ViewModel
             Navigation = navigation;
 
             LabelPoints = "Points:";
-            ScoreColor = "GreenYellow";
+            ScoreColor = ColorCorrect();
             ColorInitial = "Orange";
 
             GenerateWord();
@@ -206,6 +206,7 @@ namespace WordInEnglish.ViewModel
                     Score();
                     await DisplayAlert("Correct", "Error", "OK");
                     ColorInitial = ColorError();
+                    ScoreColor = ColorError();
                 }
             }
             else
