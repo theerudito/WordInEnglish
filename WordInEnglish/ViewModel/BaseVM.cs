@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace WordInEnglish.ViewModel
 {
-    public class BaseVM
+    public class BaseVM : INotifyPropertyChanged
     {
         public INavigation Navigation;
 

@@ -19,9 +19,11 @@ namespace WordInEnglish.ViewModel
         {
             Navigation = navigation;
 
-            LabelPoints = "Points:";
+            LabelScore = 0;
+
             ScoreColor = ColorCorrect();
-            ColorInitial = Color.Orange;
+
+            InitialColor();
 
             GenerateWord();
 
@@ -34,7 +36,7 @@ namespace WordInEnglish.ViewModel
 
         #region Properties
 
-        private string _labelPoints;
+        private int _labelScore;
         private Color _colorScore;
         private string _labelTextWord;
         private string _labeltextResult;
@@ -46,10 +48,11 @@ namespace WordInEnglish.ViewModel
         private string _wordTwo;
         private string _wordThree;
 
-        private Color _colorInitial;
+        private Color _colorFrameOne;
+        private Color _colorFrameTwo;
+        private Color _colorFrameThree;
 
-        private int _labelCounter;
-        private static int _points = 0;
+        private static int _points;
         public int _pointResponseConrrect = _points + 10;
         public int _pointResponseIncorrect = _points - 10;
         private int _trying = 0;
@@ -58,22 +61,22 @@ namespace WordInEnglish.ViewModel
 
         #region Getters/Setters
 
-        public string LabelPoints
+        public bool ReponseCorrectText
         {
-            get { return _labelPoints; }
+            get { return _reponseCorrectText; }
             set
             {
-                _labelPoints = value;
+                _reponseCorrectText = value;
                 OnPropertyChanged();
             }
         }
 
-        public int LabelCounter
+        public int LabelScore
         {
-            get { return _labelCounter; }
+            get { return _labelScore; }
             set
             {
-                _labelCounter = value;
+                _labelScore = value;
                 OnPropertyChanged();
             }
         }
@@ -168,10 +171,22 @@ namespace WordInEnglish.ViewModel
             }
         }
 
-        public Color ColorInitial
+        public Color ColorFrameOne
         {
-            get => _colorInitial;
-            set => SetValue(ref _colorInitial, value);
+            get => _colorFrameOne;
+            set => SetValue(ref _colorFrameOne, value);
+        }
+
+        public Color ColorFrameTwo
+        {
+            get => _colorFrameTwo;
+            set => SetValue(ref _colorFrameTwo, value);
+        }
+
+        public Color ColorFrameThree
+        {
+            get => _colorFrameThree;
+            set => SetValue(ref _colorFrameThree, value);
         }
 
         private int[] IdWordData = { 1, 2, 3 };
@@ -286,13 +301,23 @@ namespace WordInEnglish.ViewModel
 
             if (IdWordData[0] == Word.IdES)
             {
-                ColorInitial = ColorCorrect();
+                ColorFrameOne = ColorCorrect();
                 ScoreColor = ColorCorrect();
+                SoundCorrect();
+
+                Score();
+                LabelScore++;
+                await Task.Delay(2000);
+                await GenerateWord();
+                await SelectWord();
+                InitialColor();
             }
             else
             {
-                ColorInitial = ColorError();
+                ColorFrameOne = ColorError();
                 ScoreColor = ColorError();
+                LabelScore++;
+                Score();
             }
         }
 
@@ -301,13 +326,23 @@ namespace WordInEnglish.ViewModel
             var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
             if (IdWordData[1] == Word.IdES)
             {
-                ColorInitial = ColorCorrect();
+                ColorFrameTwo = ColorCorrect();
                 ScoreColor = ColorCorrect();
+
+                Score();
+                LabelScore++;
+                await Task.Delay(2000);
+                await GenerateWord();
+                await SelectWord();
+                InitialColor();
             }
             else
             {
-                ColorInitial = ColorError();
+                ColorFrameTwo = ColorError();
                 ScoreColor = ColorError();
+
+                LabelScore++;
+                Score();
             }
         }
 
@@ -317,13 +352,23 @@ namespace WordInEnglish.ViewModel
 
             if (IdWordData[2] == Word.IdES)
             {
-                ColorInitial = Color.GreenYellow;
+                ColorFrameThree = ColorCorrect();
                 ScoreColor = ColorCorrect();
+
+                Score();
+                LabelScore++;
+                await Task.Delay(2000);
+                await GenerateWord();
+                await SelectWord();
+                InitialColor();
             }
             else
             {
-                ColorInitial = Color.Red;
+                ColorFrameThree = ColorError();
                 ScoreColor = ColorError();
+
+                LabelScore++;
+                Score();
             }
         }
 
@@ -348,7 +393,7 @@ namespace WordInEnglish.ViewModel
 
         public void Score()
         {
-            LabelCounter = _reponseCorrectText == true ? _pointResponseConrrect : _pointResponseIncorrect;
+            LabelScore = _reponseCorrectText == true ? _pointResponseConrrect : _pointResponseIncorrect;
         }
 
         public Color ColorCorrect()
@@ -360,6 +405,31 @@ namespace WordInEnglish.ViewModel
         {
             return Color.Red;
         }
+
+        public void InitialColor()
+        {
+            ColorFrameOne = Color.Orange;
+            ColorFrameTwo = Color.Orange;
+            ColorFrameThree = Color.Orange;
+        }
+
+        // Sound Error and Correct
+        public void SoundCorrect()
+        {
+            // obtener el audio q esta en la carpeta Sound
+
+            //string path = "Sound/correct.wav";
+
+            //var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+
+            //player.Load(path);
+
+            //player.Play();
+        }
+
+        // carpeta Sound
+
+
 
         #endregion Methods
 

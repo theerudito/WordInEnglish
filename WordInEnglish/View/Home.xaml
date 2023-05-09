@@ -22,7 +22,7 @@
                             FontFamily="angrybirds"
                             FontSize="18"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding LabelPoints}"
+                            Text="Points"
                             TextColor="White"
                             VerticalTextAlignment="Center" />
                     </Frame>
@@ -38,7 +38,7 @@
                             FontFamily="angrybirds"
                             FontSize="18"
                             HorizontalTextAlignment="Center"
-                            Text="{Binding LabelCounter}"
+                            Text="{Binding LabelScore}"
                             TextColor="Black" />
                     </Frame>
                 </Grid>
@@ -84,7 +84,7 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="0"
-                        BackgroundColor="{Binding ColorInitial, Mode=TwoWay}"
+                        BackgroundColor="{Binding ColorFrameOne, Mode=TwoWay}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
@@ -101,7 +101,7 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="1"
-                        BackgroundColor="{Binding ColorInitial, Mode=TwoWay}"
+                        BackgroundColor="{Binding ColorFrameTwo, Mode=TwoWay}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
@@ -118,7 +118,7 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="2"
-                        BackgroundColor="{Binding ColorInitial, Mode=TwoWay}"
+                        BackgroundColor="{Binding ColorFrameThree, Mode=TwoWay}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
