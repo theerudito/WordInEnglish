@@ -11,8 +11,7 @@ namespace WordInEnglish
         public App()
         {
             var _dbContext = new Application_ContextDB();
-            var _data = new Data();
-
+            var _data = new InformationData();
             _dbContext.Database.Migrate();
 
             var searhEN = _dbContext.WordsEN.Find(1);

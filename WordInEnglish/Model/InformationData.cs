@@ -3,7 +3,7 @@ using WordInEnglish.Application_Context;
 
 namespace WordInEnglish.Model
 {
-    public class Data
+    public class InformationData
     {
         private Application_ContextDB _dbContext = new Application_ContextDB();
 

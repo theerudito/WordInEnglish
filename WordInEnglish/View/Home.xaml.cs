@@ -11,7 +11,7 @@ namespace WordInEnglish.View
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            BindingContext = new VM_Home(Navigation);
+            BindingContext = new VMHome(Navigation);
         }
     }
 }

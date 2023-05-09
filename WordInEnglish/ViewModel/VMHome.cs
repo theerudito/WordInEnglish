@@ -9,13 +9,13 @@ using Xamarin.Forms;
 
 namespace WordInEnglish.ViewModel
 {
-    public class VM_Home : BaseVM
+    public class VMHome : BaseVM
     {
         private Application_ContextDB _Context = new Application_ContextDB();
 
-        #region CONSTRUCTOR
+        #region Constructor
 
-        public VM_Home(INavigation navigation)
+        public VMHome(INavigation navigation)
         {
             Navigation = navigation;
 
@@ -30,9 +30,9 @@ namespace WordInEnglish.ViewModel
             Score();
         }
 
-        #endregion CONSTRUCTOR
+        #endregion Constructor
 
-        #region VARIABLE
+        #region Properties
 
         private string _labelPoints;
         private string _colorScore;
@@ -54,9 +54,9 @@ namespace WordInEnglish.ViewModel
         public int _pointResponseIncorrect = _points - 10;
         private int _trying = 0;
 
-        #endregion VARIABLE
+        #endregion Properties
 
-        #region OBJECTS
+        #region Getters/Setters
 
         public string LabelPoints
         {
@@ -171,18 +171,88 @@ namespace WordInEnglish.ViewModel
         public string ColorInitial
         {
             get { return _colorInitial; }
+
             set
             {
-                SetValue(ref _colorInitial, value);
-                OnpropertyChanged();
+                _colorInitial = value;
+                // RaisePropertyChanged();
             }
         }
 
         private int[] IdWordData = { 1, 2, 3 };
 
-        #endregion OBJECTS
+        #endregion Getters/Setters
 
-        #region METHODS
+        #region Methods
+
+        public async Task GenerateWord()
+        {
+            try
+            {
+                var quantityOnTable = _Context.WordsEN.ToListAsync().Result.Count;
+
+                var random = new Random();
+
+                var numsRandom = random.Next(1, quantityOnTable);
+                _reponseCorrectText = true;
+
+                var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numsRandom).FirstOrDefaultAsync();
+
+                IdWord = generateWord.IdEN;
+
+                LabelWord = generateWord.MyWord.ToUpper();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public async Task SelectWord()
+        {
+            List<int> numsRandom = numAletory(3);
+
+            var generateWordOne = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+            WordOne = generateWordOne.MyWord.ToUpper();
+            IdWordData[0] = generateWordOne.IdES;
+
+            var generateWordTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
+            WordTwo = generateWordTwo.MyWord.ToUpper();
+            IdWordData[1] = generateWordTwo.IdES;
+
+            var generateWordThree = await _Context.WordsES.Where(word => word.IdES == numsRandom[2]).FirstOrDefaultAsync();
+            WordThree = generateWordThree.MyWord.ToUpper();
+            IdWordData[2] = generateWordThree.IdES;
+
+            var random = new Random();
+
+            var num = random.Next(1, 4);
+
+            //if (num == 1)
+            //{
+            //    WordOne = generateWordOne.MyWord.ToUpper();
+            //    WordTwo = generateWordTwo.MyWord.ToUpper();
+            //    WordThree = generateWordThree.MyWord.ToUpper();
+
+            //    IdWordData[0] = generateWordOne.IdES;
+            //}
+            //else if (num == 2)
+            //{
+            //    WordOne = generateWordTwo.MyWord.ToUpper();
+            //    WordTwo = generateWordOne.MyWord.ToUpper();
+            //    WordThree = generateWordThree.MyWord.ToUpper();
+
+            //    IdWordData[1] = generateWordTwo.IdES;
+            //}
+            //else if (num == 3)
+            //{
+            //    WordOne = generateWordThree.MyWord.ToUpper();
+            //    WordTwo = generateWordTwo.MyWord.ToUpper();
+            //    WordThree = generateWordOne.MyWord.ToUpper();
+
+            //    IdWordData[2] = generateWordThree.IdES;
+            //}
+        }
 
         public async Task CheckWordEntry()
         {
@@ -256,62 +326,6 @@ namespace WordInEnglish.ViewModel
             }
         }
 
-        public string ColorCorrect()
-        {
-            return "GreenYellow";
-        }
-
-        public string ColorError()
-        {
-            return "Red";
-        }
-
-        public async Task SelectWord()
-        {
-            List<int> numsRandom = numAletory(3);
-
-            var generateWordOne = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
-            WordOne = generateWordOne.MyWord.ToUpper();
-            IdWordData[0] = generateWordOne.IdES;
-
-            var generateWordTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
-            WordTwo = generateWordTwo.MyWord.ToUpper();
-            IdWordData[1] = generateWordTwo.IdES;
-
-            var generateWordThree = await _Context.WordsES.Where(word => word.IdES == numsRandom[2]).FirstOrDefaultAsync();
-            WordThree = generateWordThree.MyWord.ToUpper();
-            IdWordData[2] = generateWordThree.IdES;
-
-            var random = new Random();
-
-            var num = random.Next(1, 4);
-
-            //if (num == 1)
-            //{
-            //    WordOne = generateWordOne.MyWord.ToUpper();
-            //    WordTwo = generateWordTwo.MyWord.ToUpper();
-            //    WordThree = generateWordThree.MyWord.ToUpper();
-
-            //    IdWordData[0] = generateWordOne.IdES;
-            //}
-            //else if (num == 2)
-            //{
-            //    WordOne = generateWordTwo.MyWord.ToUpper();
-            //    WordTwo = generateWordOne.MyWord.ToUpper();
-            //    WordThree = generateWordThree.MyWord.ToUpper();
-
-            //    IdWordData[1] = generateWordTwo.IdES;
-            //}
-            //else if (num == 3)
-            //{
-            //    WordOne = generateWordThree.MyWord.ToUpper();
-            //    WordTwo = generateWordTwo.MyWord.ToUpper();
-            //    WordThree = generateWordOne.MyWord.ToUpper();
-
-            //    IdWordData[2] = generateWordThree.IdES;
-            //}
-        }
-
         public List<int> numAletory(int count)
         {
             var quantityOnTable = _Context.WordsEN.ToListAsync().Result.Count;
@@ -336,45 +350,25 @@ namespace WordInEnglish.ViewModel
             LabelCounter = _reponseCorrectText == true ? _pointResponseConrrect : _pointResponseIncorrect;
         }
 
-        public async Task GenerateWord()
+        public string ColorCorrect()
         {
-            try
-            {
-                var quantityOnTable = _Context.WordsEN.ToListAsync().Result.Count;
-
-                var random = new Random();
-
-                var numsRandom = random.Next(1, quantityOnTable);
-
-                _reponseCorrectText = true;
-
-                var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numsRandom).FirstOrDefaultAsync();
-
-                IdWord = generateWord.IdEN;
-
-                LabelWord = generateWord.MyWord.ToUpper();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                await SelectWord();
-                await GenerateWord();
-            }
+            return "GreenYellow";
         }
 
-        #endregion METHODS
+        public string ColorError()
+        {
+            return "Red";
+        }
 
-        #region COMMANDS
+        #endregion Methods
+
+        #region Commands
 
         public ICommand btnCheck => new Command(async () => await CheckWordEntry());
-
         public ICommand btnCheckWordOne => new Command(async () => await CheckWordOne());
         public ICommand btnCheckWordTwo => new Command(async () => await CheckWordTwo());
         public ICommand btnCheckWordThree => new Command(async () => await CheckWordThree());
 
-        #endregion COMMANDS
+        #endregion Commands
     }
 }
