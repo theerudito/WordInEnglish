@@ -21,7 +21,7 @@ namespace WordInEnglish.ViewModel
 
             LabelPoints = "Points:";
             ScoreColor = ColorCorrect();
-            ColorInitial = "Orange";
+            ColorInitial = Color.Orange;
 
             GenerateWord();
 
@@ -35,7 +35,7 @@ namespace WordInEnglish.ViewModel
         #region Properties
 
         private string _labelPoints;
-        private string _colorScore;
+        private Color _colorScore;
         private string _labelTextWord;
         private string _labeltextResult;
         private bool _reponseCorrectText;
@@ -46,7 +46,7 @@ namespace WordInEnglish.ViewModel
         private string _wordTwo;
         private string _wordThree;
 
-        private string _colorInitial;
+        private Color _colorInitial;
 
         private int _labelCounter;
         private static int _points = 0;
@@ -98,7 +98,7 @@ namespace WordInEnglish.ViewModel
             }
         }
 
-        public string ScoreColor
+        public Color ScoreColor
         {
             get { return _colorScore; }
             set
@@ -123,7 +123,7 @@ namespace WordInEnglish.ViewModel
             get { return _labeltextResult; }
             set
             {
-                _colorScore = value;
+                _labeltextResult = value;
                 OnPropertyChanged();
             }
         }
@@ -168,15 +168,10 @@ namespace WordInEnglish.ViewModel
             }
         }
 
-        public string ColorInitial
+        public Color ColorInitial
         {
-            get { return _colorInitial; }
-
-            set
-            {
-                _colorInitial = value;
-                // RaisePropertyChanged();
-            }
+            get => _colorInitial;
+            set => SetValue(ref _colorInitial, value);
         }
 
         private int[] IdWordData = { 1, 2, 3 };
@@ -264,7 +259,7 @@ namespace WordInEnglish.ViewModel
                 {
                     await DisplayAlert("Correct", Word.MyWord, "OK");
                     ScoreColor = ColorCorrect();
-                    ColorInitial = ColorCorrect();
+
                     Score();
                     await GenerateWord();
                     await SelectWord();
@@ -275,7 +270,7 @@ namespace WordInEnglish.ViewModel
                     ScoreColor = ColorError();
                     Score();
                     await DisplayAlert("Correct", "Error", "OK");
-                    ColorInitial = ColorError();
+
                     ScoreColor = ColorError();
                 }
             }
@@ -292,9 +287,11 @@ namespace WordInEnglish.ViewModel
             if (IdWordData[0] == Word.IdES)
             {
                 ColorInitial = ColorCorrect();
+                ScoreColor = ColorCorrect();
             }
             else
             {
+                ColorInitial = ColorError();
                 ScoreColor = ColorError();
             }
         }
@@ -305,9 +302,11 @@ namespace WordInEnglish.ViewModel
             if (IdWordData[1] == Word.IdES)
             {
                 ColorInitial = ColorCorrect();
+                ScoreColor = ColorCorrect();
             }
             else
             {
+                ColorInitial = ColorError();
                 ScoreColor = ColorError();
             }
         }
@@ -318,10 +317,12 @@ namespace WordInEnglish.ViewModel
 
             if (IdWordData[2] == Word.IdES)
             {
-                ColorInitial = ColorCorrect();
+                ColorInitial = Color.GreenYellow;
+                ScoreColor = ColorCorrect();
             }
             else
             {
+                ColorInitial = Color.Red;
                 ScoreColor = ColorError();
             }
         }
@@ -350,14 +351,14 @@ namespace WordInEnglish.ViewModel
             LabelCounter = _reponseCorrectText == true ? _pointResponseConrrect : _pointResponseIncorrect;
         }
 
-        public string ColorCorrect()
+        public Color ColorCorrect()
         {
-            return "GreenYellow";
+            return Color.GreenYellow;
         }
 
-        public string ColorError()
+        public Color ColorError()
         {
-            return "Red";
+            return Color.Red;
         }
 
         #endregion Methods

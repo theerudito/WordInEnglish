@@ -84,7 +84,7 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="0"
-                        BackgroundColor="{Binding ColorInitial}"
+                        BackgroundColor="{Binding ColorInitial, Mode=TwoWay}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
@@ -95,13 +95,13 @@
                             FontFamily="angrybirds"
                             HorizontalOptions="Center"
                             Text="{Binding WordOne}"
-                            TextColor="White"
+                            TextColor="black"
                             VerticalOptions="Center" />
                     </Frame>
                     <Frame
                         Grid.Row="0"
                         Grid.Column="1"
-                        BackgroundColor="{Binding ColorInitial}"
+                        BackgroundColor="{Binding ColorInitial, Mode=TwoWay}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
@@ -112,13 +112,13 @@
                             FontFamily="angrybirds"
                             HorizontalOptions="Center"
                             Text="{Binding WordTwo}"
-                            TextColor="White"
+                            TextColor="black"
                             VerticalOptions="Center" />
                     </Frame>
                     <Frame
                         Grid.Row="0"
                         Grid.Column="2"
-                        BackgroundColor="{Binding ColorInitial}"
+                        BackgroundColor="{Binding ColorInitial, Mode=TwoWay}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
@@ -129,7 +129,7 @@
                             FontFamily="angrybirds"
                             HorizontalOptions="Center"
                             Text="{Binding WordThree}"
-                            TextColor="White"
+                            TextColor="black"
                             VerticalOptions="Center" />
                     </Frame>
                 </Grid>
@@ -141,8 +141,12 @@
                 VerticalOptions="Center">
                 <Frame
                     Margin="20,0,20,0"
+                    BackgroundColor="{Binding FrameColor, Mode=TwoWay}"
                     CornerRadius="20"
                     HasShadow="True">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding btnCheckWordThree}" />
+                    </Frame.GestureRecognizers>
                     <Entry
                         FontAttributes="Bold"
                         FontFamily="angrybirds"

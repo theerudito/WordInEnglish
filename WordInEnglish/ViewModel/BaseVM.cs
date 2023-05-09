@@ -12,12 +12,12 @@ namespace WordInEnglish.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    if (PropertyChanged != null)
-        //        PropertyChanged(this,
-        //            new PropertyChangedEventArgs(propertyName));
-        //}
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this,
+                    new PropertyChangedEventArgs(propertyName));
+        }
 
         public void OnpropertyChanged([CallerMemberName] string nombre = "")
         {
