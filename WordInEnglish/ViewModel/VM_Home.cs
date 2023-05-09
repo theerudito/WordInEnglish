@@ -21,6 +21,7 @@ namespace WordInEnglish.ViewModel
 
             LabelPoints = "Points:";
             ScoreColor = "GreenYellow";
+            ColorInitial = "Orange";
 
             GenerateWord();
 
@@ -44,6 +45,8 @@ namespace WordInEnglish.ViewModel
         private string _wordOne;
         private string _wordTwo;
         private string _wordThree;
+
+        private string _colorInitial;
 
         private int _labelCounter;
         private static int _points = 0;
@@ -165,14 +168,101 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public string ColorInitial
+        {
+            get { return _colorInitial; }
+            set
+            {
+                SetValue(ref _colorInitial, value);
+                OnpropertyChanged();
+            }
+        }
+
+        private int[] IdWordData = { 1, 2, 3 };
+
         #endregion OBJECTS
 
         #region METHODS
 
-        public async Task CheckWord()
+        public async Task CheckWordEntry()
         {
             var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
-            await DisplayAlert("Word", Word.MyWord, "Ok");
+
+            if (Word != null)
+            {
+                if (EntryWord.ToUpper() == Word.MyWord.ToUpper())
+                {
+                    await DisplayAlert("Correct", Word.MyWord, "OK");
+                    ScoreColor = ColorCorrect();
+                    ColorInitial = ColorCorrect();
+                    Score();
+                    await GenerateWord();
+                    await SelectWord();
+                    EntryWord = "";
+                }
+                else
+                {
+                    ScoreColor = ColorError();
+                    Score();
+                    await DisplayAlert("Correct", "Error", "OK");
+                    ColorInitial = ColorError();
+                }
+            }
+            else
+            {
+                await DisplayAlert("Error", "Palabra No Registrada", "OK");
+            }
+        }
+
+        public async Task CheckWordOne()
+        {
+            var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+
+            if (IdWordData[0] == Word.IdES)
+            {
+                ColorInitial = ColorCorrect();
+            }
+            else
+            {
+                ScoreColor = ColorError();
+            }
+        }
+
+        public async Task CheckWordTwo()
+        {
+            var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+            if (IdWordData[1] == Word.IdES)
+            {
+                ColorInitial = ColorCorrect();
+            }
+            else
+            {
+                ScoreColor = ColorError();
+            }
+        }
+
+        public async Task CheckWordThree()
+        {
+            var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+
+            if (IdWordData[2] == Word.IdES)
+            {
+                ColorInitial = ColorCorrect();
+            }
+            else
+            {
+                ScoreColor = ColorError();
+            }
+        }
+
+        public string ColorCorrect()
+        {
+            return "GreenYellow";
+        }
+
+        public string ColorError()
+        {
+            return "Red";
         }
 
         public async Task SelectWord()
@@ -180,33 +270,45 @@ namespace WordInEnglish.ViewModel
             List<int> numsRandom = numAletory(3);
 
             var generateWordOne = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+            WordOne = generateWordOne.MyWord.ToUpper();
+            IdWordData[0] = generateWordOne.IdES;
 
             var generateWordTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
+            WordTwo = generateWordTwo.MyWord.ToUpper();
+            IdWordData[1] = generateWordTwo.IdES;
 
             var generateWordThree = await _Context.WordsES.Where(word => word.IdES == numsRandom[2]).FirstOrDefaultAsync();
+            WordThree = generateWordThree.MyWord.ToUpper();
+            IdWordData[2] = generateWordThree.IdES;
 
             var random = new Random();
 
             var num = random.Next(1, 4);
 
-            if (num == 1)
-            {
-                WordOne = generateWordOne.MyWord.ToUpper();
-                WordTwo = generateWordTwo.MyWord.ToUpper();
-                WordThree = generateWordThree.MyWord.ToUpper();
-            }
-            else if (num == 2)
-            {
-                WordOne = generateWordTwo.MyWord.ToUpper();
-                WordTwo = generateWordOne.MyWord.ToUpper();
-                WordThree = generateWordThree.MyWord.ToUpper();
-            }
-            else if (num == 3)
-            {
-                WordOne = generateWordThree.MyWord.ToUpper();
-                WordTwo = generateWordTwo.MyWord.ToUpper();
-                WordThree = generateWordOne.MyWord.ToUpper();
-            }
+            //if (num == 1)
+            //{
+            //    WordOne = generateWordOne.MyWord.ToUpper();
+            //    WordTwo = generateWordTwo.MyWord.ToUpper();
+            //    WordThree = generateWordThree.MyWord.ToUpper();
+
+            //    IdWordData[0] = generateWordOne.IdES;
+            //}
+            //else if (num == 2)
+            //{
+            //    WordOne = generateWordTwo.MyWord.ToUpper();
+            //    WordTwo = generateWordOne.MyWord.ToUpper();
+            //    WordThree = generateWordThree.MyWord.ToUpper();
+
+            //    IdWordData[1] = generateWordTwo.IdES;
+            //}
+            //else if (num == 3)
+            //{
+            //    WordOne = generateWordThree.MyWord.ToUpper();
+            //    WordTwo = generateWordTwo.MyWord.ToUpper();
+            //    WordThree = generateWordOne.MyWord.ToUpper();
+
+            //    IdWordData[2] = generateWordThree.IdES;
+            //}
         }
 
         public List<int> numAletory(int count)
@@ -237,10 +339,15 @@ namespace WordInEnglish.ViewModel
         {
             try
             {
-                List<int> numsRandom = numAletory(3);
+                var quantityOnTable = _Context.WordsEN.ToListAsync().Result.Count;
+
+                var random = new Random();
+
+                var numsRandom = random.Next(1, quantityOnTable);
+
                 _reponseCorrectText = true;
 
-                var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numsRandom[0]).FirstOrDefaultAsync();
+                var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numsRandom).FirstOrDefaultAsync();
 
                 IdWord = generateWord.IdEN;
 
@@ -250,13 +357,22 @@ namespace WordInEnglish.ViewModel
             {
                 Console.WriteLine(ex.ToString());
             }
+            finally
+            {
+                await SelectWord();
+                await GenerateWord();
+            }
         }
 
         #endregion METHODS
 
         #region COMMANDS
 
-        public ICommand btnCheck => new Command(async () => await CheckWord());
+        public ICommand btnCheck => new Command(async () => await CheckWordEntry());
+
+        public ICommand btnCheckWordOne => new Command(async () => await CheckWordOne());
+        public ICommand btnCheckWordTwo => new Command(async () => await CheckWordTwo());
+        public ICommand btnCheckWordThree => new Command(async () => await CheckWordThree());
 
         #endregion COMMANDS
     }

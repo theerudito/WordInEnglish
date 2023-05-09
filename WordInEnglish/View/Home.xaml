@@ -31,7 +31,7 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="3"
-                        Background="{Binding ScoreColor}"
+                        BackgroundColor="{Binding ScoreColor}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Label
@@ -85,14 +85,15 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="0"
-                        Background="Orange"
+                        BackgroundColor="{Binding ColorInitial}"
                         CornerRadius="20"
                         HasShadow="True">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding btnCheck}" />
+                            <TapGestureRecognizer Command="{Binding btnCheckWordOne}" />
                         </Frame.GestureRecognizers>
                         <Label
                             FontAttributes="Bold"
+                            FontFamily="angrybirds"
                             HorizontalOptions="Center"
                             Text="{Binding WordOne}"
                             TextColor="White"
@@ -101,11 +102,15 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="1"
-                        Background="Orange"
+                        BackgroundColor="{Binding ColorInitial}"
                         CornerRadius="20"
                         HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding btnCheckWordTwo}" />
+                        </Frame.GestureRecognizers>
                         <Label
                             FontAttributes="Bold"
+                            FontFamily="angrybirds"
                             HorizontalOptions="Center"
                             Text="{Binding WordTwo}"
                             TextColor="White"
@@ -114,11 +119,15 @@
                     <Frame
                         Grid.Row="0"
                         Grid.Column="2"
-                        Background="Orange"
+                        BackgroundColor="{Binding ColorInitial}"
                         CornerRadius="20"
                         HasShadow="True">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding btnCheckWordThree}" />
+                        </Frame.GestureRecognizers>
                         <Label
                             FontAttributes="Bold"
+                            FontFamily="angrybirds"
                             HorizontalOptions="Center"
                             Text="{Binding WordThree}"
                             TextColor="White"
@@ -127,37 +136,37 @@
                 </Grid>
             </StackLayout>
 
-            <!--<StackLayout
-            Grid.Row="3"
-            Grid.Column="0"
-            VerticalOptions="Center">
-            <Frame
-            Margin="20,0,20,0"
-            CornerRadius="20"
-            HasShadow="True">
-            <Entry
-            FontAttributes="Bold"
-            FontFamily="angrybirds"
-            Placeholder="Answer"
-            Text="{Binding EntryWord}" />
-            </Frame>
+            <StackLayout
+                Grid.Row="3"
+                Grid.Column="0"
+                VerticalOptions="Center">
+                <Frame
+                    Margin="20,0,20,0"
+                    CornerRadius="20"
+                    HasShadow="True">
+                    <Entry
+                        FontAttributes="Bold"
+                        FontFamily="angrybirds"
+                        Placeholder="Answer"
+                        Text="{Binding EntryWord}" />
+                </Frame>
             </StackLayout>
 
             <StackLayout
-            Grid.Row="4"
-            Grid.Column="0"
-            Margin="40"
-            VerticalOptions="Center">
-            <Button
-            Margin="20,0,20,0"
-            Background="Orange"
-            Command="{Binding btnCheck}"
-            CornerRadius="10"
-            FontFamily="angrybirds"
-            FontSize="20"
-            Text="CHECK YOUR WORD"
-            TextColor="White" />
-            </StackLayout>-->
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="40"
+                VerticalOptions="Center">
+                <Button
+                    Margin="20,0,20,0"
+                    Background="Orange"
+                    Command="{Binding btnCheck}"
+                    CornerRadius="10"
+                    FontFamily="angrybirds"
+                    FontSize="20"
+                    Text="CHECK YOUR WORD"
+                    TextColor="White" />
+            </StackLayout>
 
             <StackLayout
                 Grid.Row="5"
