@@ -30,6 +30,8 @@ namespace WordInEnglish.ViewModel
             SelectWord();
 
             Score();
+
+            ImageLanguage = ImageSource.FromFile("flag_EN.png");
         }
 
         #endregion Constructor
@@ -40,7 +42,6 @@ namespace WordInEnglish.ViewModel
         private Color _colorScore;
         private string _labelTextWord;
         private string _labeltextResult;
-        private bool _reponseCorrectText;
         private string _inputTextEntry;
         private int _IdWord;
 
@@ -52,24 +53,13 @@ namespace WordInEnglish.ViewModel
         private Color _colorFrameTwo;
         private Color _colorFrameThree;
 
-        private static int _points;
-        public int _pointResponseConrrect = _points + 10;
-        public int _pointResponseIncorrect = _points - 10;
+        private ImageSource _ImageSource;
+
         private int _trying = 0;
 
         #endregion Properties
 
         #region Getters/Setters
-
-        public bool ReponseCorrectText
-        {
-            get { return _reponseCorrectText; }
-            set
-            {
-                _reponseCorrectText = value;
-                OnPropertyChanged();
-            }
-        }
 
         public int LabelScore
         {
@@ -191,6 +181,12 @@ namespace WordInEnglish.ViewModel
 
         private int[] IdWordData = { 1, 2, 3 };
 
+        public ImageSource ImageLanguage
+        {
+            get => _ImageSource;
+            set => SetValue(ref _ImageSource, value);
+        }
+
         #endregion Getters/Setters
 
         #region Methods
@@ -204,7 +200,6 @@ namespace WordInEnglish.ViewModel
                 var random = new Random();
 
                 var numsRandom = random.Next(1, quantityOnTable);
-                _reponseCorrectText = true;
 
                 var generateWord = await _Context.WordsEN.Where(word => word.IdEN == numsRandom).FirstOrDefaultAsync();
 
@@ -266,32 +261,56 @@ namespace WordInEnglish.ViewModel
 
         public async Task CheckWordEntry()
         {
-            var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
-
-            if (Word != null)
+            if (ValidationEntry() == true)
             {
-                if (EntryWord.ToUpper() == Word.MyWord.ToUpper())
-                {
-                    await DisplayAlert("Correct", Word.MyWord, "OK");
-                    ScoreColor = ColorCorrect();
+                var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
 
-                    Score();
-                    await GenerateWord();
-                    await SelectWord();
-                    EntryWord = "";
+                if (Word != null)
+                {
+                    if (EntryWord.ToUpper() == Word.MyWord.ToUpper())
+                    {
+                        ScoreColor = ColorCorrect();
+                        LabelScore++;
+                        await Task.Delay(2000);
+                        await GenerateWord();
+                        await SelectWord();
+                        InitialColor();
+                        WordCorrect = "";
+                        EntryWord = "";
+                    }
+                    else
+                    {
+                        await DisplayAlert("Correct", "Intenta Otra Vez", "OK");
+                        ScoreColor = ColorError();
+
+                        if (LabelScore > 0)
+                        {
+                            LabelScore--;
+                        }
+                        else
+                        {
+                            LabelScore = 0;
+                            await GenerateWord();
+                            await SelectWord();
+                        }
+
+                        Trying++;
+                        if (Trying == 3)
+                        {
+                            WordCorrect = Word.MyWord.ToUpper();
+                            await Task.Delay(2000);
+                            await GenerateWord();
+                            await SelectWord();
+                            Trying = 0;
+                            WordCorrect = "";
+                            EntryWord = "";
+                        }
+                    }
                 }
                 else
                 {
-                    ScoreColor = ColorError();
-                    Score();
-                    await DisplayAlert("Correct", "Error", "OK");
-
-                    ScoreColor = ColorError();
+                    await DisplayAlert("Error", "Palabra No Registrada", "OK");
                 }
-            }
-            else
-            {
-                await DisplayAlert("Error", "Palabra No Registrada", "OK");
             }
         }
 
@@ -305,7 +324,6 @@ namespace WordInEnglish.ViewModel
                 ScoreColor = ColorCorrect();
                 SoundCorrect();
 
-                Score();
                 LabelScore++;
                 await Task.Delay(2000);
                 await GenerateWord();
@@ -316,8 +334,16 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameOne = ColorError();
                 ScoreColor = ColorError();
-                LabelScore++;
-                Score();
+                if (LabelScore > 0)
+                {
+                    LabelScore--;
+                }
+                else
+                {
+                    LabelScore = 0;
+                    await GenerateWord();
+                    await SelectWord();
+                }
             }
         }
 
@@ -329,7 +355,6 @@ namespace WordInEnglish.ViewModel
                 ColorFrameTwo = ColorCorrect();
                 ScoreColor = ColorCorrect();
 
-                Score();
                 LabelScore++;
                 await Task.Delay(2000);
                 await GenerateWord();
@@ -341,8 +366,16 @@ namespace WordInEnglish.ViewModel
                 ColorFrameTwo = ColorError();
                 ScoreColor = ColorError();
 
-                LabelScore++;
-                Score();
+                if (LabelScore > 0)
+                {
+                    LabelScore--;
+                }
+                else
+                {
+                    LabelScore = 0;
+                    await GenerateWord();
+                    await SelectWord();
+                }
             }
         }
 
@@ -355,7 +388,6 @@ namespace WordInEnglish.ViewModel
                 ColorFrameThree = ColorCorrect();
                 ScoreColor = ColorCorrect();
 
-                Score();
                 LabelScore++;
                 await Task.Delay(2000);
                 await GenerateWord();
@@ -367,8 +399,16 @@ namespace WordInEnglish.ViewModel
                 ColorFrameThree = ColorError();
                 ScoreColor = ColorError();
 
-                LabelScore++;
-                Score();
+                if (LabelScore > 0)
+                {
+                    LabelScore--;
+                }
+                else
+                {
+                    LabelScore = 0;
+                    await GenerateWord();
+                    await SelectWord();
+                }
             }
         }
 
@@ -393,7 +433,7 @@ namespace WordInEnglish.ViewModel
 
         public void Score()
         {
-            LabelScore = _reponseCorrectText == true ? _pointResponseConrrect : _pointResponseIncorrect;
+            LabelScore = 10;
         }
 
         public Color ColorCorrect()
@@ -408,12 +448,11 @@ namespace WordInEnglish.ViewModel
 
         public void InitialColor()
         {
-            ColorFrameOne = Color.Orange;
-            ColorFrameTwo = Color.Orange;
-            ColorFrameThree = Color.Orange;
+            ColorFrameOne = Color.Yellow;
+            ColorFrameTwo = Color.PeachPuff;
+            ColorFrameThree = Color.Aqua;
         }
 
-        // Sound Error and Correct
         public void SoundCorrect()
         {
             // obtener el audio q esta en la carpeta Sound
@@ -427,14 +466,34 @@ namespace WordInEnglish.ViewModel
             //player.Play();
         }
 
-        // carpeta Sound
+        public bool ValidationEntry()
+        {
+            if (string.IsNullOrEmpty(EntryWord))
+            {
+                DisplayAlert("Error", "Ingrese una palabra", "OK");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
 
+        public void ChangeLanguage()
+        {
+
+
+            var imageES = ImageSource.FromFile("flag_ES.png");
+            var imageEN = ImageSource.FromFile("flag_EN.png");
+
+            ImageLanguage = ImageLanguage == imageES ? imageEN : imageES;
+        }
 
         #endregion Methods
 
         #region Commands
-
+        public ICommand btnChangeLanguage => new Command(ChangeLanguage);
         public ICommand btnCheck => new Command(async () => await CheckWordEntry());
         public ICommand btnCheckWordOne => new Command(async () => await CheckWordOne());
         public ICommand btnCheckWordTwo => new Command(async () => await CheckWordTwo());
