@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WordInEnglish.Application_Context;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace WordInEnglish.ViewModel
@@ -271,6 +274,7 @@ namespace WordInEnglish.ViewModel
                     {
                         ScoreColor = ColorCorrect();
                         LabelScore++;
+                        SoundCorrect();
                         await Task.Delay(2000);
                         await GenerateWord();
                         await SelectWord();
@@ -280,6 +284,7 @@ namespace WordInEnglish.ViewModel
                     }
                     else
                     {
+                        SoundInCorrect();
                         await DisplayAlert("Correct", "Intenta Otra Vez", "OK");
                         ScoreColor = ColorError();
 
@@ -309,6 +314,7 @@ namespace WordInEnglish.ViewModel
                 }
                 else
                 {
+                    SoundInCorrect();
                     await DisplayAlert("Error", "Palabra No Registrada", "OK");
                 }
             }
@@ -334,6 +340,8 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameOne = ColorError();
                 ScoreColor = ColorError();
+                SoundInCorrect();
+
                 if (LabelScore > 0)
                 {
                     LabelScore--;
@@ -354,6 +362,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameTwo = ColorCorrect();
                 ScoreColor = ColorCorrect();
+                SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -365,6 +374,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameTwo = ColorError();
                 ScoreColor = ColorError();
+                SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -387,6 +397,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameThree = ColorCorrect();
                 ScoreColor = ColorCorrect();
+                SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -398,6 +409,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameThree = ColorError();
                 ScoreColor = ColorError();
+                SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -455,15 +467,21 @@ namespace WordInEnglish.ViewModel
 
         public void SoundCorrect()
         {
-            // obtener el audio q esta en la carpeta Sound
+            var assembly = typeof(App).GetTypeInfo().Assembly;
+            Stream audioStream = assembly.GetManifestResourceStream("WordInEnglish.Sound.correct.mp3");
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load(audioStream);
+            player.Play();
+        }
 
-            //string path = "Sound/correct.wav";
-
-            //var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-
-            //player.Load(path);
-
-            //player.Play();
+        public void SoundInCorrect()
+        {
+            // VibrateDevice();
+            var assembly = typeof(App).GetTypeInfo().Assembly;
+            Stream audioStream = assembly.GetManifestResourceStream("WordInEnglish.Sound.error.mp3");
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load(audioStream);
+            player.Play();
         }
 
         public bool ValidationEntry()
@@ -479,20 +497,38 @@ namespace WordInEnglish.ViewModel
             }
         }
 
-
         public void ChangeLanguage()
         {
-
-
             var imageES = ImageSource.FromFile("flag_ES.png");
             var imageEN = ImageSource.FromFile("flag_EN.png");
 
             ImageLanguage = ImageLanguage == imageES ? imageEN : imageES;
         }
 
+        public void VibrateDevice()
+        {
+            try
+            {
+                Vibration.Vibrate();
+
+                // Or use specified time
+                var duration = TimeSpan.FromSeconds(1);
+                Vibration.Vibrate(duration);
+            }
+            catch (FeatureNotSupportedException ex)
+            {
+                // Feature not supported on device
+            }
+            catch (Exception ex)
+            {
+                // Other error has occurred.
+            }
+        }
+
         #endregion Methods
 
         #region Commands
+
         public ICommand btnChangeLanguage => new Command(ChangeLanguage);
         public ICommand btnCheck => new Command(async () => await CheckWordEntry());
         public ICommand btnCheckWordOne => new Command(async () => await CheckWordOne());

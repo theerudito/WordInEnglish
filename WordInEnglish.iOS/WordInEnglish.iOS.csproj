@@ -123,14 +123,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MarcTron.Admob">
+      <Version>1.6.9</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore">
       <Version>3.1.32</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>3.1.32</Version>
-    </PackageReference>
-    <PackageReference Include="Teddy.MvvmCross.Plugin.SimpleAudioPlayer">
-      <Version>1.0.8</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.SimpleAudioPlayer">
       <Version>1.6.0</Version>

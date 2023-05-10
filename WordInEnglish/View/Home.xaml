@@ -2,7 +2,8 @@
 <ContentPage
     x:Class="WordInEnglish.View.Home"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MarcTron.Plugin.Controls;assembly=Plugin.MtAdmob">
     <ContentPage.Content>
         <Grid
             BackgroundColor="#303345"
@@ -17,15 +18,14 @@
                     RowDefinitions="60">
 
                     <StackLayout>
-                        <Grid>
-                            <ImageButton
-                                BackgroundColor="Transparent"
-                                BorderColor="Transparent"
-                                Command="{Binding btnChangeLanguage}"
-                                HeightRequest="20"
-                                Source="{Binding ImageLanguage}"
-                                WidthRequest="20" />
-                        </Grid>
+
+                        <ImageButton
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            Command="{Binding btnChangeLanguage}"
+                            HeightRequest="20"
+                            Source="{Binding ImageLanguage}"
+                            WidthRequest="20" />
                     </StackLayout>
 
                     <Frame
@@ -198,14 +198,14 @@
             <StackLayout
                 Grid.Row="6"
                 Grid.Column="0"
-                Background="silver"
-                HeightRequest="70"
+                HeightRequest="60"
                 VerticalOptions="Center">
-                <Label
-                    FontFamily="angrybirds"
-                    HorizontalOptions="Center"
-                    Text="Anuncio"
-                    VerticalOptions="Center" />
+                <controls:MTAdView
+                    AdsId="ca-app-pub-3940256099942544/2934735716"
+                    BackgroundColor="Orange"
+                    HeightRequest="60"
+                    IsEnabled="True"
+                    IsVisible="True" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>

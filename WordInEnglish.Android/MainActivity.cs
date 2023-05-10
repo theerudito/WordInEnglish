@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.Gms.Ads;
 using Android.OS;
 using Android.Runtime;
 
@@ -14,6 +15,9 @@ namespace WordInEnglish.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            MobileAds.Initialize(ApplicationContext);
+
             LoadApplication(new App());
         }
 

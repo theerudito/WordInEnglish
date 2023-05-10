@@ -12,13 +12,22 @@
 
   <ItemGroup>
     <None Remove="Fonts\angrybirds.ttf" />
+    <None Remove="Sound\correct.mp3" />
+    <None Remove="Sound\error.mp3" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\angrybirds.ttf" />
+    <EmbeddedResource Include="Sound\correct.mp3">
+      <CustomToolNamespace>WordInEnglish</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sound\error.mp3">
+      <CustomToolNamespace>WordInEnglish</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MarcTron.Admob" Version="1.6.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.32" />
     <PackageReference Include="Xam.Plugin.SimpleAudioPlayer" Version="1.6.0" />
