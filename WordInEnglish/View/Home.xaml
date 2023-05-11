@@ -156,7 +156,7 @@
                         FontSize="20"
                         HorizontalOptions="Center"
                         Text="{Binding WordCorrect}"
-                        TextColor="white"
+                        TextColor="Black"
                         TextTransform="Uppercase" />
                 </Frame>
             </StackLayout>
@@ -202,7 +202,7 @@
                 VerticalOptions="Center">
                 <controls:MTAdView
                     AdsId="ca-app-pub-3940256099942544/2934735716"
-                    BackgroundColor="Orange"
+
                     HeightRequest="60"
                     IsEnabled="True"
                     IsVisible="True" />
