@@ -15,12 +15,7 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
-            InitializeComponent();
 
-            MainPage = new Home();
-
-            // FirebaseNotification
-            CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
 
             var searhEN = _dbContext.WordsEN.Find(1);
 
@@ -35,6 +30,13 @@ namespace WordInEnglish
             {
                 _data.WORDES();
             }
+
+            InitializeComponent();
+
+            MainPage = new Home();
+
+            CrossFirebasePushNotification.Current.Subscribe("all");
+            CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
         }
 
         private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
