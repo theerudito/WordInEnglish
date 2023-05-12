@@ -201,8 +201,7 @@
                 HeightRequest="60"
                 VerticalOptions="Center">
                 <controls:MTAdView
-                    AdsId="ca-app-pub-3940256099942544/2934735716"
-
+                    AdsId="ca-app-pub-7633493507240683/3332171856"
                     HeightRequest="60"
                     IsEnabled="True"
                     IsVisible="True" />

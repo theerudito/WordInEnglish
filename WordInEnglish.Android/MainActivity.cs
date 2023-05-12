@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.Gms.Ads;
 using Android.OS;
 using Android.Runtime;
+using Plugin.FirebasePushNotification;
 
 namespace WordInEnglish.Droid
 {
@@ -19,6 +20,8 @@ namespace WordInEnglish.Droid
             MobileAds.Initialize(ApplicationContext);
 
             LoadApplication(new App());
+
+            FirebasePushNotificationManager.ProcessIntent(this, Intent);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

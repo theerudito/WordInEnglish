@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Plugin.FirebasePushNotification;
 using WordInEnglish.Application_Context;
 using WordInEnglish.Model;
 using WordInEnglish.View;
@@ -14,6 +15,13 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
+            InitializeComponent();
+
+            MainPage = new Home();
+
+            // FirebaseNotification
+            CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
+
             var searhEN = _dbContext.WordsEN.Find(1);
 
             if (searhEN == null)
@@ -27,10 +35,11 @@ namespace WordInEnglish
             {
                 _data.WORDES();
             }
+        }
 
-            InitializeComponent();
-
-            MainPage = new Home();
+        private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"TOKEN ERUDITO: {e.Token}");
         }
 
         protected override void OnStart()
