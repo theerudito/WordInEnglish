@@ -14,7 +14,7 @@
                 Source="back_light.png"
                 WidthRequest="40" />
 
-            <ImageButton BackgroundColor="Transparent" Source="add.png" />
+            <ImageButton BackgroundColor="Transparent" Source="message.png" />
 
             <Label
                 FontAttributes="Bold"
@@ -28,11 +28,11 @@
                 HasShadow="true">
                 <Entry
                     Keyboard="Text"
-                    Placeholder="palabra en ingles"
+                    MaxLength="50"
+                    Placeholder="WORD IN ENGLISH"
                     Text="{Binding WordEnglish}"
                     TextTransform="Uppercase" />
             </Frame>
-
 
             <Label
                 FontAttributes="Bold"
@@ -46,7 +46,8 @@
                 HasShadow="true">
                 <Entry
                     Keyboard="Text"
-                    Placeholder="palabra en ingles"
+                    MaxLength="50"
+                    Placeholder="WORD IN SPANISH"
                     Text="{Binding WordSpanish}"
                     TextTransform="Uppercase" />
             </Frame>

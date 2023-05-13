@@ -19,14 +19,14 @@ namespace WordInEnglish
 
             if (searhEN == null)
             {
-                //_data.WORDEN();
+                _data.WORDEN();
             }
 
             var searhES = _dbContext.WordsES.Find(1);
 
             if (searhES == null)
             {
-                //_data.WORDES();
+                _data.WORDES();
             }
 
             InitializeComponent();
