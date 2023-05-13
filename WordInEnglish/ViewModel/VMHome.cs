@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WordInEnglish.Application_Context;
+using WordInEnglish.View;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -525,10 +526,16 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public async Task GoConfig()
+        {
+            await Navigation.PushAsync(new Config());
+        }
+
         #endregion Methods
 
         #region Commands
 
+        public ICommand btnGoConfig => new Command(async () => await GoConfig());
         public ICommand btnChangeLanguage => new Command(ChangeLanguage);
         public ICommand btnCheck => new Command(async () => await CheckWordEntry());
         public ICommand btnCheckWordOne => new Command(async () => await CheckWordOne());

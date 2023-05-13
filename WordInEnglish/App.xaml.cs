@@ -15,25 +15,23 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
-
-
             var searhEN = _dbContext.WordsEN.Find(1);
 
             if (searhEN == null)
             {
-                _data.WORDEN();
+                //_data.WORDEN();
             }
 
             var searhES = _dbContext.WordsES.Find(1);
 
             if (searhES == null)
             {
-                _data.WORDES();
+                //_data.WORDES();
             }
 
             InitializeComponent();
 
-            MainPage = new Home();
+            MainPage = new NavigationPage(new Home());
 
             CrossFirebasePushNotification.Current.Subscribe("all");
             CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;

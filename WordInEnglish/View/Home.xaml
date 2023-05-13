@@ -26,6 +26,13 @@
                             HeightRequest="20"
                             Source="{Binding ImageLanguage}"
                             WidthRequest="20" />
+                        <ImageButton
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            Command="{Binding btnGoConfig}"
+                            HeightRequest="40"
+                            Source="add.png"
+                            WidthRequest="20" />
                     </StackLayout>
 
                     <Frame

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="WordInEnglish.View.Config"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#303345">
+            <ImageButton
+                Margin="10"
+                BackgroundColor="Transparent"
+                Command="{Binding btnBack}"
+                HeightRequest="40"
+                HorizontalOptions="Start"
+                Source="back_light.png"
+                WidthRequest="40" />
+
+            <ImageButton BackgroundColor="Transparent" Source="add.png" />
+
+            <Label
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="Palabra en Ingles"
+                TextColor="white"
+                TextTransform="Uppercase" />
+            <Frame
+                Margin="20"
+                CornerRadius="20"
+                HasShadow="true">
+                <Entry
+                    Keyboard="Text"
+                    Placeholder="palabra en ingles"
+                    Text="{Binding WordEnglish}"
+                    TextTransform="Uppercase" />
+            </Frame>
+
+
+            <Label
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Text="Palabra en Español"
+                TextColor="white"
+                TextTransform="Uppercase" />
+            <Frame
+                Margin="20"
+                CornerRadius="20"
+                HasShadow="true">
+                <Entry
+                    Keyboard="Text"
+                    Placeholder="palabra en ingles"
+                    Text="{Binding WordSpanish}"
+                    TextTransform="Uppercase" />
+            </Frame>
+
+            <Button
+                Margin="20"
+                BackgroundColor="GreenYellow"
+                BorderColor="Transparent"
+                Command="{Binding btnSaveNewWord}"
+                CornerRadius="20"
+                Text="Guardar" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
