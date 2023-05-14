@@ -221,46 +221,41 @@ namespace WordInEnglish.ViewModel
         {
             List<int> numsRandom = numAletory(3);
 
-            var generateWordOne = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
-            WordOne = generateWordOne.MyWord.ToUpper();
-            IdWordData[0] = generateWordOne.IdES;
+            var wordCorrect = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
 
-            var generateWordTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
-            WordTwo = generateWordTwo.MyWord.ToUpper();
-            IdWordData[1] = generateWordTwo.IdES;
+            var wordIncorrectOne = await _Context.WordsES.Where(word => word.IdES == numsRandom[0]).FirstOrDefaultAsync();
+            var wordIncorrectTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
 
-            var generateWordThree = await _Context.WordsES.Where(word => word.IdES == numsRandom[2]).FirstOrDefaultAsync();
-            WordThree = generateWordThree.MyWord.ToUpper();
-            IdWordData[2] = generateWordThree.IdES;
+            WordOne = wordCorrect.MyWord.ToUpper();
+
+            WordTwo = wordIncorrectOne.MyWord.ToUpper();
+            WordThree = wordIncorrectTwo.MyWord.ToUpper();
 
             var random = new Random();
 
-            var num = random.Next(1, 4);
+            var numsRandomTwo = random.Next(1, 4);
 
-            //if (num == 1)
-            //{
-            //    WordOne = generateWordOne.MyWord.ToUpper();
-            //    WordTwo = generateWordTwo.MyWord.ToUpper();
-            //    WordThree = generateWordThree.MyWord.ToUpper();
-
-            //    IdWordData[0] = generateWordOne.IdES;
-            //}
-            //else if (num == 2)
-            //{
-            //    WordOne = generateWordTwo.MyWord.ToUpper();
-            //    WordTwo = generateWordOne.MyWord.ToUpper();
-            //    WordThree = generateWordThree.MyWord.ToUpper();
-
-            //    IdWordData[1] = generateWordTwo.IdES;
-            //}
-            //else if (num == 3)
-            //{
-            //    WordOne = generateWordThree.MyWord.ToUpper();
-            //    WordTwo = generateWordTwo.MyWord.ToUpper();
-            //    WordThree = generateWordOne.MyWord.ToUpper();
-
-            //    IdWordData[2] = generateWordThree.IdES;
-            //}
+            if (numsRandomTwo == 1)
+            {
+                WordOne = wordCorrect.MyWord.ToUpper();
+                WordTwo = wordIncorrectOne.MyWord.ToUpper();
+                WordThree = wordIncorrectTwo.MyWord.ToUpper();
+                IdWordData[0] = IdWord;
+            }
+            else if (numsRandomTwo == 2)
+            {
+                WordOne = wordIncorrectOne.MyWord.ToUpper();
+                WordTwo = wordCorrect.MyWord.ToUpper();
+                WordThree = wordIncorrectTwo.MyWord.ToUpper();
+                IdWordData[1] = IdWord;
+            }
+            else if (numsRandomTwo == 3)
+            {
+                WordOne = wordIncorrectOne.MyWord.ToUpper();
+                WordTwo = wordIncorrectTwo.MyWord.ToUpper();
+                WordThree = wordCorrect.MyWord.ToUpper();
+                IdWordData[2] = IdWord;
+            }
         }
 
         public async Task CheckWordEntry()
@@ -468,18 +463,20 @@ namespace WordInEnglish.ViewModel
 
         public void SoundCorrect()
         {
-            var assembly = typeof(App).GetTypeInfo().Assembly;
-            Stream audioStream = assembly.GetManifestResourceStream("WordInEnglish.Sound.correct.mp3");
-            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-            player.Load(audioStream);
-            player.Play();
+            var audio = "WordInEnglish.Sound.correct.mp3";
+            SoundPlay(audio);
         }
 
         public void SoundInCorrect()
         {
-            // VibrateDevice();
+            var audio = "WordInEnglish.Sound.error.mp3";
+            SoundPlay(audio);
+        }
+
+        public void SoundPlay(string audio)
+        {
             var assembly = typeof(App).GetTypeInfo().Assembly;
-            Stream audioStream = assembly.GetManifestResourceStream("WordInEnglish.Sound.error.mp3");
+            Stream audioStream = assembly.GetManifestResourceStream(audio);
             var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
             player.Load(audioStream);
             player.Play();

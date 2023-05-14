@@ -48,29 +48,32 @@ namespace WordInEnglish.ViewModel
 
         public async Task SaveNewWord()
         {
-            string wordEnglish = WordEnglish.ToUpper().Trim();
-            string wordSpanish = WordSpanish.ToUpper().Trim();
-
-            var wordEN = _context.WordsEN.Where(x => x.MyWord == wordEnglish).FirstOrDefault();
-            var wordES = _context.WordsES.Where(x => x.MyWord == wordSpanish).FirstOrDefault();
-
-            if (wordEN != null && wordES != null)
+            if (ValidateFields() == true)
             {
-                var wordEN_ID = _context.WordsEN.Where(x => x.IdEN == wordEN.IdEN).FirstOrDefault();
-                var wordES_ID = _context.WordsES.Where(x => x.IdES == wordES.IdES).FirstOrDefault();
+                string wordEnglish = WordEnglish.ToUpper().Trim();
+                string wordSpanish = WordSpanish.ToUpper().Trim();
 
-                if (wordEN_ID != null && wordES_ID != null)
+                var wordEN = _context.WordsEN.Where(x => x.MyWord == wordEnglish).FirstOrDefault();
+                var wordES = _context.WordsES.Where(x => x.MyWord == wordSpanish).FirstOrDefault();
+
+                if (wordEN != null && wordES != null)
                 {
-                    await DisplayAlert("Info", "The word already exists", "Ok");
+                    var wordEN_ID = _context.WordsEN.Where(x => x.IdEN == wordEN.IdEN).FirstOrDefault();
+                    var wordES_ID = _context.WordsES.Where(x => x.IdES == wordES.IdES).FirstOrDefault();
+
+                    if (wordEN_ID != null && wordES_ID != null)
+                    {
+                        await DisplayAlert("Info", "The word already exists", "Ok");
+                    }
+                    else
+                    {
+                        await newWord();
+                    }
                 }
                 else
                 {
                     await newWord();
                 }
-            }
-            else
-            {
-                await newWord();
             }
         }
 
