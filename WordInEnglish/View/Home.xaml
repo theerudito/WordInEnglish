@@ -30,9 +30,9 @@
                             BackgroundColor="Transparent"
                             BorderColor="Transparent"
                             Command="{Binding btnGoConfig}"
-                            HeightRequest="30"
-                            Source="config.png"
-                            WidthRequest="30" />
+                            HeightRequest="25"
+                            Source="configuration.png"
+                            WidthRequest="25" />
                     </StackLayout>
 
                     <Frame

@@ -51,24 +51,38 @@ namespace WordInEnglish.ViewModel
             string wordEnglish = WordEnglish.ToUpper().Trim();
             string wordSpanish = WordSpanish.ToUpper().Trim();
 
-            var searchEN = _context.WordsEN.Where(x => x.MyWord.Equals(wordEnglish.Length)).FirstOrDefault();
-            var searchES = _context.WordsES.Where(x => x.MyWord.Equals(wordSpanish.Length)).FirstOrDefault();
+            var wordEN = _context.WordsEN.Where(x => x.MyWord == wordEnglish).FirstOrDefault();
+            var wordES = _context.WordsES.Where(x => x.MyWord == wordSpanish).FirstOrDefault();
 
-            if (searchEN != null || searchES != null)
+            if (wordEN != null && wordES != null)
             {
-                await DisplayAlert("Info", "Word already exists", "Ok");
+                var wordEN_ID = _context.WordsEN.Where(x => x.IdEN == wordEN.IdEN).FirstOrDefault();
+                var wordES_ID = _context.WordsES.Where(x => x.IdES == wordES.IdES).FirstOrDefault();
+
+                if (wordEN_ID != null && wordES_ID != null)
+                {
+                    await DisplayAlert("Info", "The word already exists", "Ok");
+                }
+                else
+                {
+                    await newWord();
+                }
             }
             else
             {
-                if (ValidateFields() == true)
-                {
-                    await _context.AddAsync(new WordEN { MyWord = WordEnglish.ToUpper().Trim() });
-                    await _context.AddAsync(new WordES { MyWord = WordSpanish.ToUpper().Trim() });
-                    await _context.SaveChangesAsync();
+                await newWord();
+            }
+        }
 
-                    await DisplayAlert("Info", "Word saved successfully", "Ok");
-                    CleanFields();
-                }
+        public async Task newWord()
+        {
+            if (ValidateFields() == true)
+            {
+                await _context.AddAsync(new WordEN { MyWord = WordEnglish.ToUpper().Trim() });
+                await _context.AddAsync(new WordES { MyWord = WordSpanish.ToUpper().Trim() });
+                await _context.SaveChangesAsync();
+                await DisplayAlert("Info", "Word saved successfully", "Ok");
+                CleanFields();
             }
         }
 
