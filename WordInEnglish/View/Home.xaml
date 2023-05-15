@@ -3,7 +3,7 @@
     x:Class="WordInEnglish.View.Home"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:MarcTron.Plugin.Controls;assembly=Plugin.MtAdmob">
+    xmlns:anuncio="clr-namespace:WordInEnglish.View">
     <ContentPage.Content>
         <Grid
             BackgroundColor="#303345"
@@ -205,13 +205,10 @@
             <StackLayout
                 Grid.Row="6"
                 Grid.Column="0"
-                HeightRequest="60"
                 VerticalOptions="Center">
-                <controls:MTAdView
-                    AdsId="ca-app-pub-7633493507240683/3332171856"
-                    HeightRequest="60"
-                    IsEnabled="True"
-                    IsVisible="True" />
+                <StackLayout>
+                    <anuncio:Page_Ads />
+                </StackLayout>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
