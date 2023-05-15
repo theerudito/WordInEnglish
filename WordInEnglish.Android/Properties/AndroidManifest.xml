@@ -4,7 +4,7 @@
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 	<application android:label="Words In English" android:theme="@style/MainTheme">
 
-		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7633493507240683~8513126598" />
+		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7633493507240683~1694073976" />
 
 		<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@android:drawable/ic_menu_save" />
 	</application>

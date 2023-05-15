@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MarcTron.Plugin;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -525,7 +526,21 @@ namespace WordInEnglish.ViewModel
 
         public async Task GoConfig()
         {
+            ShowIntertiscal();
             await Navigation.PushAsync(new Config());
+        }
+
+        public void ShowIntertiscal()
+        {
+            var idInterstical = "ca-app-pub-7633493507240683/8231562165";
+
+            CrossMTAdmob.Current.LoadInterstitial(idInterstical);
+        }
+
+        public void ShowVideoAds()
+        {
+            var idVideoInterstical = "ca-app-pub-7633493507240683/8231562165";
+            CrossMTAdmob.Current.LoadRewardedVideo(idVideoInterstical);
         }
 
         #endregion Methods
