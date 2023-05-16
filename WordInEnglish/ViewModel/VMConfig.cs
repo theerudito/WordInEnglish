@@ -14,6 +14,14 @@ namespace WordInEnglish.ViewModel
         public VMConfig(INavigation navigation)
         {
             Navigation = navigation;
+            if (getLocalStorange() == "EN")
+            {
+                LanguageConfig();
+            }
+            else
+            {
+                LanguageConfig();
+            }
         }
 
         #region Property
@@ -37,9 +45,77 @@ namespace WordInEnglish.ViewModel
             set { _WordSpanish = value; OnPropertyChanged(); }
         }
 
+        #region Language;
+
+        private string _language;
+        private string _textEN;
+        private string _textES;
+        private string _placeholderEN;
+        private string _placeholderES;
+        private string _btnTextEN;
+
+        public string Language
+        {
+            get { return _language; }
+            set { _language = value; OnPropertyChanged(); }
+        }
+
+        public string TextInforEN
+        {
+            get { return _textEN; }
+            set { _textEN = value; OnPropertyChanged(); }
+        }
+
+        public string TextInforES
+        {
+            get { return _textES; }
+            set { _textES = value; OnPropertyChanged(); }
+        }
+
+        public string PlaceholderTextEN
+        {
+            get { return _placeholderEN; }
+            set { _placeholderEN = value; OnPropertyChanged(); }
+        }
+
+        public string PlaceholderTextES
+        {
+            get { return _placeholderES; }
+            set { _placeholderES = value; OnPropertyChanged(); }
+        }
+
+        public string BtnText
+        {
+            get { return _btnTextEN; }
+            set { _btnTextEN = value; OnPropertyChanged(); }
+        }
+
+        #endregion Language;
+
         #endregion Objects
 
         #region Methods
+
+        public void LanguageConfig()
+        {
+            getLocalStorange();
+            if (Language == "EN")
+            {
+                TextInforEN = MyLanguages._TextOneEN;
+                TextInforES = MyLanguages._TextTwoEN;
+                PlaceholderTextEN = MyLanguages._PlaceholderOneEN;
+                PlaceholderTextES = MyLanguages._PlaceholderOneEN;
+                BtnText = MyLanguages._SaveWORDEN;
+            }
+            else
+            {
+                TextInforEN = MyLanguages._TextOneES;
+                TextInforES = MyLanguages._TextTwoES;
+                PlaceholderTextEN = MyLanguages._PlaceholderTwoES;
+                PlaceholderTextES = MyLanguages._PlaceholderTwoES;
+                BtnText = MyLanguages._SaveWORDES;
+            }
+        }
 
         public async Task GoConfig()
         {
@@ -63,7 +139,7 @@ namespace WordInEnglish.ViewModel
 
                     if (wordEN_ID != null && wordES_ID != null)
                     {
-                        await DisplayAlert("Info", "The word already exists", "Ok");
+                        await AlertExistWord();
                     }
                     else
                     {
@@ -84,7 +160,7 @@ namespace WordInEnglish.ViewModel
                 await _context.AddAsync(new WordEN { MyWord = WordEnglish.ToUpper().Trim() });
                 await _context.AddAsync(new WordES { MyWord = WordSpanish.ToUpper().Trim() });
                 await _context.SaveChangesAsync();
-                await DisplayAlert("Info", "Word saved successfully", "Ok");
+                await AlertSaveSuccessfully();
                 CleanFields();
             }
         }
@@ -99,15 +175,70 @@ namespace WordInEnglish.ViewModel
         {
             if (string.IsNullOrEmpty(WordEnglish))
             {
-                DisplayAlert("WordInEnglish", "Please enter a word in English", "Ok");
+                AlertValidationFieldOne();
                 return false;
             }
             if (string.IsNullOrEmpty(WordSpanish))
             {
-                DisplayAlert("WordInEnglish", "Please enter a word in Spanish", "Ok");
+                AlertValidationFieldTwo();
                 return false;
             }
             return true;
+        }
+
+        public string getLocalStorange()
+        {
+            var language = Xamarin.Essentials.Preferences.Get("language", "EN");
+            Language = language;
+            return language;
+        }
+
+        public async Task AlertExistWord()
+        {
+            if (Language == "EN")
+            {
+                await DisplayAlert("Info", "The word already exists", "Ok");
+            }
+            else
+            {
+                await DisplayAlert("Info", "La palabra ya existe", "Ok");
+            }
+        }
+
+        public async Task AlertSaveSuccessfully()
+        {
+            if (Language == "EN")
+            {
+                await DisplayAlert("Info", "Word saved successfully", "Ok");
+            }
+            else
+            {
+                await DisplayAlert("Info", "Palabra guardada exitosamente", "Ok");
+            }
+        }
+
+        public void AlertValidationFieldOne()
+        {
+            if (Language == "EN")
+            {
+                DisplayAlert("WordInEnglish", "Please enter a word in English", "Ok");
+            }
+            else
+            {
+                DisplayAlert("WordInEnglish", "Por favor ingrese una palabra en Ingles", "Ok");
+            }
+        }
+
+        public void AlertValidationFieldTwo()
+        {
+            if (Language == "EN")
+            {
+                DisplayAlert("WordInEnglish", "Please enter a word in Spanish", "Ok");
+            }
+            else
+            {
+                DisplayAlert("WordInEnglish", "Por favor ingrese una palabra en Español", "Ok");
+            }
         }
 
         #endregion Methods

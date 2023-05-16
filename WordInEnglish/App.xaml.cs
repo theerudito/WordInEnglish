@@ -15,6 +15,11 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
+            var language = "EN";
+
+            Xamarin.Essentials.Preferences.Set("language", language);
+
+
             var searhEN = _dbContext.WordsEN.Find(1);
 
             if (searhEN == null)

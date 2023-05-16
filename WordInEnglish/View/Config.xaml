@@ -20,7 +20,7 @@
             <Label
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Text="Palabra en Ingles"
+                Text="{Binding TextInforEN}"
                 TextColor="white"
                 TextTransform="Uppercase" />
             <Frame
@@ -30,7 +30,7 @@
                 <Entry
                     Keyboard="Text"
                     MaxLength="50"
-                    Placeholder="WORD IN ENGLISH"
+                    Placeholder="{Binding PlaceholderTextEN}"
                     Text="{Binding WordEnglish}"
                     TextTransform="Uppercase" />
             </Frame>
@@ -38,7 +38,7 @@
             <Label
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Text="Palabra en Español"
+                Text="{Binding TextInforES}"
                 TextColor="white"
                 TextTransform="Uppercase" />
             <Frame
@@ -48,7 +48,7 @@
                 <Entry
                     Keyboard="Text"
                     MaxLength="50"
-                    Placeholder="WORD IN SPANISH"
+                    Placeholder="{Binding PlaceholderTextES}"
                     Text="{Binding WordSpanish}"
                     TextTransform="Uppercase" />
             </Frame>
@@ -59,11 +59,9 @@
                 BorderColor="Transparent"
                 Command="{Binding btnSaveNewWord}"
                 CornerRadius="20"
-                Text="Guardar" />
-
+                Text="{Binding BtnText}" />
 
             <anuncio:Page_Ads />
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

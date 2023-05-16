@@ -22,6 +22,17 @@ namespace WordInEnglish.ViewModel
 
         public VMHome(INavigation navigation)
         {
+            if (getLocalStorange() == "EN")
+            {
+                ChangeLanguage();
+                Language = getLocalStorange();
+            }
+            else
+            {
+                ChangeLanguage();
+                Language = getLocalStorange();
+            }
+
             Navigation = navigation;
 
             LabelScore = 0;
@@ -35,8 +46,6 @@ namespace WordInEnglish.ViewModel
             SelectWord();
 
             Score();
-
-            ImageLanguage = ImageSource.FromFile("flag_EN.png");
         }
 
         #endregion Constructor
@@ -186,6 +195,39 @@ namespace WordInEnglish.ViewModel
 
         private int[] IdWordData = { 1, 2, 3 };
 
+        // LANGUAGE
+        private string _language;
+
+        public string Language
+        {
+            get => _language;
+            set => SetValue(ref _language, value);
+        }
+
+        private string _points;
+        private string _answer;
+        private string _checkYourWord;
+
+        public string Points
+        {
+            get => _points;
+            set => SetValue(ref _points, value);
+        }
+
+        public string Answer
+        {
+            get => _answer;
+            set => SetValue(ref _answer, value);
+        }
+
+        public string CheckYourWord
+        {
+            get => _checkYourWord;
+            set => SetValue(ref _checkYourWord, value);
+        }
+
+        // LANGUAGE
+
         public ImageSource ImageLanguage
         {
             get => _ImageSource;
@@ -197,6 +239,12 @@ namespace WordInEnglish.ViewModel
         #region Methods
 
         public async Task GenerateWord()
+        {
+            if (Language == "EN") await GenerateWordEN();
+            else await GenerateWordES();
+        }
+
+        public async Task GenerateWordEN()
         {
             try
             {
@@ -218,48 +266,35 @@ namespace WordInEnglish.ViewModel
             }
         }
 
-        public async Task SelectWord()
+        public async Task GenerateWordES()
         {
-            List<int> numsRandom = numAletory(3);
-
-            var wordCorrect = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
-
-            var wordIncorrectOne = await _Context.WordsES.Where(word => word.IdES == numsRandom[0]).FirstOrDefaultAsync();
-            var wordIncorrectTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
-
-            WordOne = wordCorrect.MyWord.ToUpper();
-
-            WordTwo = wordIncorrectOne.MyWord.ToUpper();
-            WordThree = wordIncorrectTwo.MyWord.ToUpper();
-
-            var random = new Random();
-
-            var numsRandomTwo = random.Next(1, 4);
-
-            if (numsRandomTwo == 1)
+            try
             {
-                WordOne = wordCorrect.MyWord.ToUpper();
-                WordTwo = wordIncorrectOne.MyWord.ToUpper();
-                WordThree = wordIncorrectTwo.MyWord.ToUpper();
-                IdWordData[0] = IdWord;
+                var quantityOnTable = _Context.WordsES.ToListAsync().Result.Count;
+
+                var random = new Random();
+
+                var numsRandom = random.Next(1, quantityOnTable);
+
+                var generateWord = await _Context.WordsES.Where(word => word.IdES == numsRandom).FirstOrDefaultAsync();
+
+                IdWord = generateWord.IdES;
+
+                LabelWord = generateWord.MyWord.ToUpper();
             }
-            else if (numsRandomTwo == 2)
+            catch (Exception ex)
             {
-                WordOne = wordIncorrectOne.MyWord.ToUpper();
-                WordTwo = wordCorrect.MyWord.ToUpper();
-                WordThree = wordIncorrectTwo.MyWord.ToUpper();
-                IdWordData[1] = IdWord;
-            }
-            else if (numsRandomTwo == 3)
-            {
-                WordOne = wordIncorrectOne.MyWord.ToUpper();
-                WordTwo = wordIncorrectTwo.MyWord.ToUpper();
-                WordThree = wordCorrect.MyWord.ToUpper();
-                IdWordData[2] = IdWord;
+                Console.WriteLine(ex.ToString());
             }
         }
 
         public async Task CheckWordEntry()
+        {
+            if (Language == "EN") await CheckWordEN();
+            else await CheckWordES();
+        }
+
+        public async Task CheckWordEN()
         {
             if (ValidationEntry() == true)
             {
@@ -267,7 +302,65 @@ namespace WordInEnglish.ViewModel
 
                 if (Word != null)
                 {
-                    if (EntryWord.ToUpper() == Word.MyWord.ToUpper())
+                    if (EntryWord.ToUpper().Trim() == Word.MyWord.ToUpper())
+                    {
+                        ScoreColor = ColorCorrect();
+                        LabelScore++;
+                        SoundCorrect();
+                        await Task.Delay(2000);
+                        await GenerateWord();
+                        await SelectWord();
+                        InitialColor();
+                        WordCorrect = "";
+                        EntryWord = "";
+                    }
+                    else
+                    {
+                        SoundInCorrect();
+                        await DisplayAlert("Correct", "Try Again", "OK");
+                        ScoreColor = ColorError();
+
+                        if (LabelScore > 0)
+                        {
+                            LabelScore--;
+                        }
+                        else
+                        {
+                            LabelScore = 0;
+                            await GenerateWord();
+                            await SelectWord();
+                        }
+
+                        Trying++;
+                        if (Trying == 3)
+                        {
+                            WordCorrect = Word.MyWord.ToUpper();
+                            await Task.Delay(2000);
+                            await GenerateWord();
+                            await SelectWord();
+                            Trying = 0;
+                            WordCorrect = "";
+                            EntryWord = "";
+                        }
+                    }
+                }
+                else
+                {
+                    SoundInCorrect();
+                    await DisplayAlert("Error", "Unregistered Word", "OK");
+                }
+            }
+        }
+
+        public async Task CheckWordES()
+        {
+            if (ValidationEntry() == true)
+            {
+                var Word = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
+
+                if (Word != null)
+                {
+                    if (EntryWord.ToUpper().Trim() == Word.MyWord.ToUpper())
                     {
                         ScoreColor = ColorCorrect();
                         LabelScore++;
@@ -317,7 +410,101 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public async Task SelectWord()
+        {
+            if (Language == "EN") await WordRamdonEN();
+            else await WordRamdonES();
+        }
+
+        public async Task WordRamdonEN()
+        {
+            List<int> numsRandom = numAletory(3);
+
+            var wordCorrect = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
+
+            var wordIncorrectOne = await _Context.WordsES.Where(word => word.IdES == numsRandom[0]).FirstOrDefaultAsync();
+            var wordIncorrectTwo = await _Context.WordsES.Where(word => word.IdES == numsRandom[1]).FirstOrDefaultAsync();
+
+            WordOne = wordCorrect.MyWord.ToUpper();
+
+            WordTwo = wordIncorrectOne.MyWord.ToUpper();
+            WordThree = wordIncorrectTwo.MyWord.ToUpper();
+
+            var random = new Random();
+
+            var numsRandomTwo = random.Next(1, 4);
+
+            if (numsRandomTwo == 1)
+            {
+                WordOne = wordCorrect.MyWord.ToUpper();
+                WordTwo = wordIncorrectOne.MyWord.ToUpper();
+                WordThree = wordIncorrectTwo.MyWord.ToUpper();
+                IdWordData[0] = IdWord;
+            }
+            else if (numsRandomTwo == 2)
+            {
+                WordOne = wordIncorrectOne.MyWord.ToUpper();
+                WordTwo = wordCorrect.MyWord.ToUpper();
+                WordThree = wordIncorrectTwo.MyWord.ToUpper();
+                IdWordData[1] = IdWord;
+            }
+            else if (numsRandomTwo == 3)
+            {
+                WordOne = wordIncorrectOne.MyWord.ToUpper();
+                WordTwo = wordIncorrectTwo.MyWord.ToUpper();
+                WordThree = wordCorrect.MyWord.ToUpper();
+                IdWordData[2] = IdWord;
+            }
+        }
+
+        public async Task WordRamdonES()
+        {
+            List<int> numsRandom = numAletory(3);
+
+            var wordCorrect = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
+
+            var wordIncorrectOne = await _Context.WordsEN.Where(word => word.IdEN == numsRandom[0]).FirstOrDefaultAsync();
+            var wordIncorrectTwo = await _Context.WordsEN.Where(word => word.IdEN == numsRandom[1]).FirstOrDefaultAsync();
+
+            WordOne = wordCorrect.MyWord.ToUpper();
+
+            WordTwo = wordIncorrectOne.MyWord.ToUpper();
+            WordThree = wordIncorrectTwo.MyWord.ToUpper();
+
+            var random = new Random();
+
+            var numsRandomTwo = random.Next(1, 4);
+
+            if (numsRandomTwo == 1)
+            {
+                WordOne = wordCorrect.MyWord.ToUpper();
+                WordTwo = wordIncorrectOne.MyWord.ToUpper();
+                WordThree = wordIncorrectTwo.MyWord.ToUpper();
+                IdWordData[0] = IdWord;
+            }
+            else if (numsRandomTwo == 2)
+            {
+                WordOne = wordIncorrectOne.MyWord.ToUpper();
+                WordTwo = wordCorrect.MyWord.ToUpper();
+                WordThree = wordIncorrectTwo.MyWord.ToUpper();
+                IdWordData[1] = IdWord;
+            }
+            else if (numsRandomTwo == 3)
+            {
+                WordOne = wordIncorrectOne.MyWord.ToUpper();
+                WordTwo = wordIncorrectTwo.MyWord.ToUpper();
+                WordThree = wordCorrect.MyWord.ToUpper();
+                IdWordData[2] = IdWord;
+            }
+        }
+
         public async Task CheckWordOne()
+        {
+            if (Language == "EN") await CheckWordOneEN();
+            else await CheckWordOneES();
+        }
+
+        public async Task CheckWordOneEN()
         {
             var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
 
@@ -352,7 +539,48 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public async Task CheckWordOneES()
+        {
+            var Word = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
+
+            if (IdWordData[0] == Word.IdEN)
+            {
+                ColorFrameOne = ColorCorrect();
+                ScoreColor = ColorCorrect();
+                SoundCorrect();
+
+                LabelScore++;
+                await Task.Delay(2000);
+                await GenerateWord();
+                await SelectWord();
+                InitialColor();
+            }
+            else
+            {
+                ColorFrameOne = ColorError();
+                ScoreColor = ColorError();
+                SoundInCorrect();
+
+                if (LabelScore > 0)
+                {
+                    LabelScore--;
+                }
+                else
+                {
+                    LabelScore = 0;
+                    await GenerateWord();
+                    await SelectWord();
+                }
+            }
+        }
+
         public async Task CheckWordTwo()
+        {
+            if (Language == "EN") await CheckWordTwoEN();
+            else await CheckWordTwoES();
+        }
+
+        public async Task CheckWordTwoEN()
         {
             var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
             if (IdWordData[1] == Word.IdES)
@@ -386,11 +614,86 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public async Task CheckWordTwoES()
+        {
+            var Word = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
+            if (IdWordData[1] == Word.IdEN)
+            {
+                ColorFrameTwo = ColorCorrect();
+                ScoreColor = ColorCorrect();
+                SoundCorrect();
+
+                LabelScore++;
+                await Task.Delay(2000);
+                await GenerateWord();
+                await SelectWord();
+                InitialColor();
+            }
+            else
+            {
+                ColorFrameTwo = ColorError();
+                ScoreColor = ColorError();
+                SoundInCorrect();
+
+                if (LabelScore > 0)
+                {
+                    LabelScore--;
+                }
+                else
+                {
+                    LabelScore = 0;
+                    await GenerateWord();
+                    await SelectWord();
+                }
+            }
+        }
+
         public async Task CheckWordThree()
+        {
+            if (Language == "EN") await CheckWordThreeEN();
+            else await CheckWordThreeES();
+        }
+
+        public async Task CheckWordThreeEN()
         {
             var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
 
             if (IdWordData[2] == Word.IdES)
+            {
+                ColorFrameThree = ColorCorrect();
+                ScoreColor = ColorCorrect();
+                SoundCorrect();
+
+                LabelScore++;
+                await Task.Delay(2000);
+                await GenerateWord();
+                await SelectWord();
+                InitialColor();
+            }
+            else
+            {
+                ColorFrameThree = ColorError();
+                ScoreColor = ColorError();
+                SoundInCorrect();
+
+                if (LabelScore > 0)
+                {
+                    LabelScore--;
+                }
+                else
+                {
+                    LabelScore = 0;
+                    await GenerateWord();
+                    await SelectWord();
+                }
+            }
+        }
+
+        public async Task CheckWordThreeES()
+        {
+            var Word = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
+
+            if (IdWordData[2] == Word.IdEN)
             {
                 ColorFrameThree = ColorCorrect();
                 ScoreColor = ColorCorrect();
@@ -501,7 +804,42 @@ namespace WordInEnglish.ViewModel
             var imageES = ImageSource.FromFile("flag_ES.png");
             var imageEN = ImageSource.FromFile("flag_EN.png");
 
-            ImageLanguage = ImageLanguage == imageES ? imageEN : imageES;
+            if (Language == "EN")
+            {
+                ImageLanguage = imageEN;
+                Xamarin.Essentials.Preferences.Set("language", "ES");
+                SelectLanguage();
+            }
+            else
+            {
+                ImageLanguage = imageES;
+                Xamarin.Essentials.Preferences.Set("language", "EN");
+                SelectLanguage();
+            }
+        }
+
+        public void SelectLanguage()
+        {
+            getLocalStorange();
+            if (Language == "EN")
+            {
+                Points = MyLanguages._Points;
+                Answer = MyLanguages._Answer;
+                CheckYourWord = MyLanguages._Check_Your_Word;
+            }
+            else
+            {
+                Points = MyLanguages._Puntos;
+                Answer = MyLanguages._Respuesta;
+                CheckYourWord = MyLanguages._Revisa_Tu_Palabra;
+            }
+        }
+
+        public string getLocalStorange()
+        {
+            var language = Xamarin.Essentials.Preferences.Get("language", "EN");
+            Language = language;
+            return language;
         }
 
         public void VibrateDevice()
