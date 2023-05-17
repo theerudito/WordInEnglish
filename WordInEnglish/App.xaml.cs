@@ -15,10 +15,9 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
-            var language = "EN";
+            var language = GetDeviceLanguage();
 
             Xamarin.Essentials.Preferences.Set("language", language);
-
 
             var searhEN = _dbContext.WordsEN.Find(1);
 
@@ -40,6 +39,23 @@ namespace WordInEnglish
 
             CrossFirebasePushNotification.Current.Subscribe("all");
             CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
+        }
+
+        public string GetDeviceLanguage()
+        {
+            string language = "";
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                var androidLocale = Java.Util.Locale.Default;
+                language = androidLocale.Language;
+            }
+
+            // hacer una alerta
+
+            System.Diagnostics.Debug.WriteLine("idioma: " + language);
+
+            return language;
         }
 
         private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
