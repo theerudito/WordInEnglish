@@ -296,6 +296,8 @@ namespace WordInEnglish.ViewModel
 
         public async Task CheckWordEN()
         {
+            await DisplayAlert("Language", getLocalStorange(), "OK");
+
             if (ValidationEntry() == true)
             {
                 var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
@@ -317,7 +319,7 @@ namespace WordInEnglish.ViewModel
                     else
                     {
                         SoundInCorrect();
-                        await DisplayAlert("Correct", "Try Again", "OK");
+                        await AlertIncorrect();
                         ScoreColor = ColorError();
 
                         if (LabelScore > 0)
@@ -347,13 +349,14 @@ namespace WordInEnglish.ViewModel
                 else
                 {
                     SoundInCorrect();
-                    await DisplayAlert("Error", "Unregistered Word", "OK");
+                    await AlertWordNoExist();
                 }
             }
         }
 
         public async Task CheckWordES()
         {
+            await DisplayAlert("Language", getLocalStorange(), "OK");
             if (ValidationEntry() == true)
             {
                 var Word = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
@@ -375,7 +378,7 @@ namespace WordInEnglish.ViewModel
                     else
                     {
                         SoundInCorrect();
-                        await DisplayAlert("Correct", "Intenta Otra Vez", "OK");
+                        await AlertIncorrect();
                         ScoreColor = ColorError();
 
                         if (LabelScore > 0)
@@ -405,9 +408,21 @@ namespace WordInEnglish.ViewModel
                 else
                 {
                     SoundInCorrect();
-                    await DisplayAlert("Error", "Palabra No Registrada", "OK");
+                    await AlertWordNoExist();
                 }
             }
+        }
+
+        public async Task AlertIncorrect()
+        {
+            if (Language == "EN") await DisplayAlert("Correct", "Try Again", "OK");
+            else await DisplayAlert("Correct", "Intenta Otra Vez", "OK");
+        }
+
+        public async Task AlertWordNoExist()
+        {
+            if (Language == "EN") await DisplayAlert("Error", "Unregistered Word", "OK");
+            else await DisplayAlert("Error", "Palabra No Registrada", "OK");
         }
 
         public async Task SelectWord()
@@ -838,8 +853,7 @@ namespace WordInEnglish.ViewModel
         public string getLocalStorange()
         {
             var language = Xamarin.Essentials.Preferences.Get("language", "EN");
-            Language = language;
-            return language;
+            return Language = language;
         }
 
         public void VibrateDevice()
@@ -865,20 +879,36 @@ namespace WordInEnglish.ViewModel
         public async Task GoConfig()
         {
             ShowIntertiscal();
-            await Navigation.PushAsync(new Config());
+            if (CrossMTAdmob.Current.IsInterstitialLoaded())
+            {
+                // Mostrar el anuncio intersticial
+                CrossMTAdmob.Current.ShowInterstitial();
+                await Navigation.PushAsync(new Config());
+            }
         }
 
         public void ShowIntertiscal()
         {
-            var idInterstical = "ca-app-pub-7633493507240683/8231562165";
+            var idIntersticial = "ca-app-pub-7633493507240683/8231562165";
 
-            CrossMTAdmob.Current.LoadInterstitial(idInterstical);
+            CrossMTAdmob.Current.LoadInterstitial(idIntersticial);
+
         }
 
         public void ShowVideoAds()
         {
-            var idVideoInterstical = "ca-app-pub-7633493507240683/8231562165";
-            CrossMTAdmob.Current.LoadRewardedVideo(idVideoInterstical);
+            var idVideoIntersticial = "ca-app-pub-7633493507240683/9925478281";
+
+            // Cargar el anuncio de video recompensado
+            CrossMTAdmob.Current.LoadRewardedVideo(idVideoIntersticial);
+
+
+            // Verificar si el anuncio está listo para mostrarse
+            if (CrossMTAdmob.Current.IsRewardedVideoLoaded())
+            {
+                // Mostrar el anuncio de video recompensado
+                CrossMTAdmob.Current.ShowRewardedVideo();
+            }
         }
 
         #endregion Methods

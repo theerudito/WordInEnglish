@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Plugin.FirebasePushNotification;
+using Plugin.Multilingual;
 using WordInEnglish.Application_Context;
 using WordInEnglish.Model;
 using WordInEnglish.View;
@@ -15,9 +16,16 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
-            var language = GetDeviceLanguage();
+            var currentLanguage = CrossMultilingual.Current.CurrentCultureInfo;
 
-            Xamarin.Essentials.Preferences.Set("language", language);
+            var language = currentLanguage;
+
+            //if (Xamarin.Essentials.Preferences.Get("language", string.Empty) != string.Empty)
+            // {
+            //     language = new System.Globalization.CultureInfo(Xamarin.Essentials.Preferences.Get("language", string.Empty));
+            // }
+
+            Xamarin.Essentials.Preferences.Set("language", language.ToString().ToUpper());
 
             var searhEN = _dbContext.WordsEN.Find(1);
 
@@ -39,23 +47,6 @@ namespace WordInEnglish
 
             CrossFirebasePushNotification.Current.Subscribe("all");
             CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
-        }
-
-        public string GetDeviceLanguage()
-        {
-            string language = "";
-
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                var androidLocale = Java.Util.Locale.Default;
-                language = androidLocale.Language;
-            }
-
-            // hacer una alerta
-
-            System.Diagnostics.Debug.WriteLine("idioma: " + language);
-
-            return language;
         }
 
         private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
