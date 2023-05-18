@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WordInEnglish.Application_Context;
+using WordInEnglish.Helpers;
 using WordInEnglish.Model;
 using Xamarin.Forms;
 
@@ -14,7 +15,9 @@ namespace WordInEnglish.ViewModel
         public VMConfig(INavigation navigation)
         {
             Navigation = navigation;
-            if (getLocalStorange() == "EN")
+            Language = LocalStorange.GetLocalStorange("language");
+
+            if (Language == "EN")
             {
                 LanguageConfig();
             }
@@ -98,20 +101,19 @@ namespace WordInEnglish.ViewModel
 
         public void LanguageConfig()
         {
-            getLocalStorange();
             if (Language == "EN")
             {
                 TextInforEN = MyLanguages._TextOneEN;
                 TextInforES = MyLanguages._TextTwoEN;
                 PlaceholderTextEN = MyLanguages._PlaceholderOneEN;
-                PlaceholderTextES = MyLanguages._PlaceholderOneEN;
+                PlaceholderTextES = MyLanguages._PlaceholderTwoEN;
                 BtnText = MyLanguages._SaveWORDEN;
             }
             else
             {
                 TextInforEN = MyLanguages._TextOneES;
                 TextInforES = MyLanguages._TextTwoES;
-                PlaceholderTextEN = MyLanguages._PlaceholderTwoES;
+                PlaceholderTextEN = MyLanguages._PlaceholderOneES;
                 PlaceholderTextES = MyLanguages._PlaceholderTwoES;
                 BtnText = MyLanguages._SaveWORDES;
             }
@@ -186,22 +188,15 @@ namespace WordInEnglish.ViewModel
             return true;
         }
 
-        public string getLocalStorange()
-        {
-            var language = Xamarin.Essentials.Preferences.Get("language", "EN");
-            Language = language;
-            return language;
-        }
-
         public async Task AlertExistWord()
         {
             if (Language == "EN")
             {
-                await DisplayAlert("Info", "The word already exists", "Ok");
+                await Alerts.LoadAlert("WordInEnglish", "The word already exists", "OK");
             }
             else
             {
-                await DisplayAlert("Info", "La palabra ya existe", "Ok");
+                await Alerts.LoadAlert("WordInEnglish", "La palabra ya existe", "SI");
             }
         }
 
@@ -209,11 +204,12 @@ namespace WordInEnglish.ViewModel
         {
             if (Language == "EN")
             {
+                await Alerts.LoadAlert("WordInEnglish", "Word saved successfully", "OK");
                 await DisplayAlert("Info", "Word saved successfully", "Ok");
             }
             else
             {
-                await DisplayAlert("Info", "Palabra guardada exitosamente", "Ok");
+                await Alerts.LoadAlert("WordInEnglish", "Palabra guardada exitosamente", "SI");
             }
         }
 
@@ -221,11 +217,11 @@ namespace WordInEnglish.ViewModel
         {
             if (Language == "EN")
             {
-                DisplayAlert("WordInEnglish", "Please enter a word in English", "Ok");
+                Alerts.LoadAlert("WordInEnglish", "Please enter a word in English", "OK");
             }
             else
             {
-                DisplayAlert("WordInEnglish", "Por favor ingrese una palabra en Ingles", "Ok");
+                Alerts.LoadAlert("WordInEnglish", "Por favor ingrese una palabra en Ingles", "SI");
             }
         }
 
@@ -233,11 +229,11 @@ namespace WordInEnglish.ViewModel
         {
             if (Language == "EN")
             {
-                DisplayAlert("WordInEnglish", "Please enter a word in Spanish", "Ok");
+                Alerts.LoadAlert("WordInEnglish", "Please enter a word in Spanish", "OK");
             }
             else
             {
-                DisplayAlert("WordInEnglish", "Por favor ingrese una palabra en Español", "Ok");
+                Alerts.LoadAlert("WordInEnglish", "Por favor ingrese una palabra en Español", "SI");
             }
         }
 

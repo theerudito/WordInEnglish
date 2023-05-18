@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using WordInEnglish.Application_Context;
+using WordInEnglish.Model;
 
-namespace WordInEnglish.Model
+namespace WordInEnglish.Helpers
 {
     public class InformationData
     {

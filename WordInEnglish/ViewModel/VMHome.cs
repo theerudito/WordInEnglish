@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WordInEnglish.Application_Context;
+using WordInEnglish.Helpers;
 using WordInEnglish.View;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -22,15 +21,16 @@ namespace WordInEnglish.ViewModel
 
         public VMHome(INavigation navigation)
         {
-            if (getLocalStorange() == "EN")
+            var language = LocalStorange.GetLocalStorange("language");
+            if (language == "EN")
             {
                 ChangeLanguage();
-                Language = getLocalStorange();
+                Language = language;
             }
             else
             {
                 ChangeLanguage();
-                Language = getLocalStorange();
+                Language = language;
             }
 
             Navigation = navigation;
@@ -296,8 +296,6 @@ namespace WordInEnglish.ViewModel
 
         public async Task CheckWordEN()
         {
-            await DisplayAlert("Language", getLocalStorange(), "OK");
-
             if (ValidationEntry() == true)
             {
                 var Word = await _Context.WordsES.Where(word => word.IdES == IdWord).FirstOrDefaultAsync();
@@ -308,7 +306,7 @@ namespace WordInEnglish.ViewModel
                     {
                         ScoreColor = ColorCorrect();
                         LabelScore++;
-                        SoundCorrect();
+                        SoundsApp.SoundCorrect();
                         await Task.Delay(2000);
                         await GenerateWord();
                         await SelectWord();
@@ -318,8 +316,8 @@ namespace WordInEnglish.ViewModel
                     }
                     else
                     {
-                        SoundInCorrect();
-                        await AlertIncorrect();
+                        SoundsApp.SoundInCorrect();
+                        await Alerts.LoadAlert("WordInEnglish", "Try again", "ok");
                         ScoreColor = ColorError();
 
                         if (LabelScore > 0)
@@ -348,15 +346,14 @@ namespace WordInEnglish.ViewModel
                 }
                 else
                 {
-                    SoundInCorrect();
-                    await AlertWordNoExist();
+                    SoundsApp.SoundInCorrect();
+                    await Alerts.LoadAlert("WordInEnglish", "Word Not Exist", "ok"); ;
                 }
             }
         }
 
         public async Task CheckWordES()
         {
-            await DisplayAlert("Language", getLocalStorange(), "OK");
             if (ValidationEntry() == true)
             {
                 var Word = await _Context.WordsEN.Where(word => word.IdEN == IdWord).FirstOrDefaultAsync();
@@ -367,7 +364,7 @@ namespace WordInEnglish.ViewModel
                     {
                         ScoreColor = ColorCorrect();
                         LabelScore++;
-                        SoundCorrect();
+                        SoundsApp.SoundCorrect();
                         await Task.Delay(2000);
                         await GenerateWord();
                         await SelectWord();
@@ -377,8 +374,8 @@ namespace WordInEnglish.ViewModel
                     }
                     else
                     {
-                        SoundInCorrect();
-                        await AlertIncorrect();
+                        SoundsApp.SoundInCorrect();
+                        await Alerts.LoadAlert("WordInEnglish", "Intenta otra vez", "ok");
                         ScoreColor = ColorError();
 
                         if (LabelScore > 0)
@@ -407,22 +404,10 @@ namespace WordInEnglish.ViewModel
                 }
                 else
                 {
-                    SoundInCorrect();
-                    await AlertWordNoExist();
+                    SoundsApp.SoundInCorrect();
+                    await Alerts.LoadAlert("WordInEnglish", "La palabra no existe", "ok");
                 }
             }
-        }
-
-        public async Task AlertIncorrect()
-        {
-            if (Language == "EN") await DisplayAlert("Correct", "Try Again", "OK");
-            else await DisplayAlert("Correct", "Intenta Otra Vez", "OK");
-        }
-
-        public async Task AlertWordNoExist()
-        {
-            if (Language == "EN") await DisplayAlert("Error", "Unregistered Word", "OK");
-            else await DisplayAlert("Error", "Palabra No Registrada", "OK");
         }
 
         public async Task SelectWord()
@@ -527,7 +512,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameOne = ColorCorrect();
                 ScoreColor = ColorCorrect();
-                SoundCorrect();
+                SoundsApp.SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -539,7 +524,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameOne = ColorError();
                 ScoreColor = ColorError();
-                SoundInCorrect();
+                SoundsApp.SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -562,7 +547,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameOne = ColorCorrect();
                 ScoreColor = ColorCorrect();
-                SoundCorrect();
+                SoundsApp.SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -574,7 +559,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameOne = ColorError();
                 ScoreColor = ColorError();
-                SoundInCorrect();
+                SoundsApp.SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -602,7 +587,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameTwo = ColorCorrect();
                 ScoreColor = ColorCorrect();
-                SoundCorrect();
+                SoundsApp.SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -614,7 +599,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameTwo = ColorError();
                 ScoreColor = ColorError();
-                SoundInCorrect();
+                SoundsApp.SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -636,7 +621,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameTwo = ColorCorrect();
                 ScoreColor = ColorCorrect();
-                SoundCorrect();
+                SoundsApp.SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -648,7 +633,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameTwo = ColorError();
                 ScoreColor = ColorError();
-                SoundInCorrect();
+                SoundsApp.SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -677,7 +662,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameThree = ColorCorrect();
                 ScoreColor = ColorCorrect();
-                SoundCorrect();
+                SoundsApp.SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -689,7 +674,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameThree = ColorError();
                 ScoreColor = ColorError();
-                SoundInCorrect();
+                SoundsApp.SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -712,7 +697,8 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameThree = ColorCorrect();
                 ScoreColor = ColorCorrect();
-                SoundCorrect();
+
+                SoundsApp.SoundCorrect();
 
                 LabelScore++;
                 await Task.Delay(2000);
@@ -724,7 +710,7 @@ namespace WordInEnglish.ViewModel
             {
                 ColorFrameThree = ColorError();
                 ScoreColor = ColorError();
-                SoundInCorrect();
+                SoundsApp.SoundInCorrect();
 
                 if (LabelScore > 0)
                 {
@@ -780,32 +766,18 @@ namespace WordInEnglish.ViewModel
             ColorFrameThree = Color.Aqua;
         }
 
-        public void SoundCorrect()
-        {
-            var audio = "WordInEnglish.Sound.correct.mp3";
-            SoundPlay(audio);
-        }
-
-        public void SoundInCorrect()
-        {
-            var audio = "WordInEnglish.Sound.error.mp3";
-            SoundPlay(audio);
-        }
-
-        public void SoundPlay(string audio)
-        {
-            var assembly = typeof(App).GetTypeInfo().Assembly;
-            Stream audioStream = assembly.GetManifestResourceStream(audio);
-            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
-            player.Load(audioStream);
-            player.Play();
-        }
-
         public bool ValidationEntry()
         {
             if (string.IsNullOrEmpty(EntryWord))
             {
-                DisplayAlert("Error", "Ingrese una palabra", "OK");
+                if (Language == "EN")
+                {
+                    Alerts.LoadAlert("WordInEnglish", "Enter a word", "OK");
+                }
+                else
+                {
+                    Alerts.LoadAlert("WordInEnglish", "Ingresa una palabra", "SI");
+                }
                 return false;
             }
             else
@@ -822,20 +794,23 @@ namespace WordInEnglish.ViewModel
             if (Language == "EN")
             {
                 ImageLanguage = imageEN;
-                Xamarin.Essentials.Preferences.Set("language", "ES");
+                LocalStorange.SetLocalStorange("language", "ES");
                 SelectLanguage();
             }
             else
             {
                 ImageLanguage = imageES;
-                Xamarin.Essentials.Preferences.Set("language", "EN");
+                LocalStorange.SetLocalStorange("language", "EN");
                 SelectLanguage();
             }
         }
 
         public void SelectLanguage()
         {
-            getLocalStorange();
+            var language = LocalStorange.GetLocalStorange("language");
+
+            Language = language;
+
             if (Language == "EN")
             {
                 Points = MyLanguages._Points;
@@ -848,12 +823,6 @@ namespace WordInEnglish.ViewModel
                 Answer = MyLanguages._Respuesta;
                 CheckYourWord = MyLanguages._Revisa_Tu_Palabra;
             }
-        }
-
-        public string getLocalStorange()
-        {
-            var language = Xamarin.Essentials.Preferences.Get("language", "EN");
-            return Language = language;
         }
 
         public void VibrateDevice()
@@ -881,9 +850,20 @@ namespace WordInEnglish.ViewModel
             ShowIntertiscal();
             if (CrossMTAdmob.Current.IsInterstitialLoaded())
             {
-                // Mostrar el anuncio intersticial
+                // show interstitial ad
                 CrossMTAdmob.Current.ShowInterstitial();
                 await Navigation.PushAsync(new Config());
+            }
+            else
+            {
+                if (Language == "EN")
+                {
+                    await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
+                }
+                else
+                {
+                    await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
+                }
             }
         }
 
@@ -892,7 +872,6 @@ namespace WordInEnglish.ViewModel
             var idIntersticial = "ca-app-pub-7633493507240683/8231562165";
 
             CrossMTAdmob.Current.LoadInterstitial(idIntersticial);
-
         }
 
         public void ShowVideoAds()
@@ -901,7 +880,6 @@ namespace WordInEnglish.ViewModel
 
             // Cargar el anuncio de video recompensado
             CrossMTAdmob.Current.LoadRewardedVideo(idVideoIntersticial);
-
 
             // Verificar si el anuncio está listo para mostrarse
             if (CrossMTAdmob.Current.IsRewardedVideoLoaded())

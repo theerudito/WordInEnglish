@@ -1,4 +1,4 @@
-﻿namespace WordInEnglish.ViewModel
+﻿namespace WordInEnglish.Helpers
 {
     public static class MyLanguages
     {

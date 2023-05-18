@@ -3,7 +3,7 @@ using Plugin.Multilingual.Abstractions;
 using System;
 using System.Globalization;
 
-namespace WordInEnglish.ViewModel
+namespace WordInEnglish.Helpers
 {
     public class SystemLanguage : IMultilingual
     {

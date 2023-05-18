@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Plugin.FirebasePushNotification;
 using Plugin.Multilingual;
+using System;
 using WordInEnglish.Application_Context;
-using WordInEnglish.Model;
+using WordInEnglish.Helpers;
 using WordInEnglish.View;
 using Xamarin.Forms;
 
@@ -16,16 +17,7 @@ namespace WordInEnglish
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
-            var currentLanguage = CrossMultilingual.Current.CurrentCultureInfo;
-
-            var language = currentLanguage;
-
-            //if (Xamarin.Essentials.Preferences.Get("language", string.Empty) != string.Empty)
-            // {
-            //     language = new System.Globalization.CultureInfo(Xamarin.Essentials.Preferences.Get("language", string.Empty));
-            // }
-
-            Xamarin.Essentials.Preferences.Set("language", language.ToString().ToUpper());
+            LocalStorange.SetLocalStorange("language", getLanguage());
 
             var searhEN = _dbContext.WordsEN.Find(1);
 
@@ -52,6 +44,25 @@ namespace WordInEnglish
         private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"TOKEN ERUDITO: {e.Token}");
+        }
+
+        private string getLanguage()
+        {
+            var currentLanguage = CrossMultilingual.Current.CurrentCultureInfo;
+
+            Console.WriteLine("Idioma es " + currentLanguage.ToString());
+            if (currentLanguage.ToString() == "en-US")
+            {
+                return "EN";
+            }
+            else if (currentLanguage.ToString() == "es-ES")
+            {
+                return "ES";
+            }
+            else
+            {
+                return "EN";
+            }
         }
 
         protected override void OnStart()
