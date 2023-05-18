@@ -17,14 +17,9 @@ namespace WordInEnglish.ViewModel
             Navigation = navigation;
             Language = LocalStorange.GetLocalStorange("language");
 
-            if (Language == "EN")
-            {
-                LanguageConfig();
-            }
-            else
-            {
-                LanguageConfig();
-            }
+            if (Language == "EN") LanguageConfig();
+
+
         }
 
         #region Property

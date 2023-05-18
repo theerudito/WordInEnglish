@@ -13,11 +13,12 @@ namespace WordInEnglish
     {
         public App()
         {
+            getLanguage();
+
             var _dbContext = new Application_ContextDB();
             var _data = new InformationData();
             _dbContext.Database.Migrate();
 
-            LocalStorange.SetLocalStorange("language", getLanguage());
 
             var searhEN = _dbContext.WordsEN.Find(1);
 
@@ -46,22 +47,23 @@ namespace WordInEnglish
             System.Diagnostics.Debug.WriteLine($"TOKEN ERUDITO: {e.Token}");
         }
 
-        private string getLanguage()
+        public void getLanguage()
         {
             var currentLanguage = CrossMultilingual.Current.CurrentCultureInfo;
 
-            Console.WriteLine("Idioma es " + currentLanguage.ToString());
-            if (currentLanguage.ToString() == "en-US")
+            Console.WriteLine("Idioma es " + currentLanguage.Name);
+
+            if (currentLanguage.Name == "en-US")
             {
-                return "EN";
+                LocalStorange.SetLocalStorange("language", "EN");
             }
-            else if (currentLanguage.ToString() == "es-ES")
+            else if (currentLanguage.Name == "es-ES")
             {
-                return "ES";
+                LocalStorange.SetLocalStorange("language", "ES");
             }
             else
             {
-                return "EN";
+                LocalStorange.SetLocalStorange("language", "EN");
             }
         }
 

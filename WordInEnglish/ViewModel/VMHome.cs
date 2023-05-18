@@ -21,17 +21,9 @@ namespace WordInEnglish.ViewModel
 
         public VMHome(INavigation navigation)
         {
-            var language = LocalStorange.GetLocalStorange("language");
-            if (language == "EN")
-            {
-                ChangeLanguage();
-                Language = language;
-            }
-            else
-            {
-                ChangeLanguage();
-                Language = language;
-            }
+            Language = LocalStorange.GetLocalStorange("language");
+
+            if (Language == "EN") ChangeLanguage();
 
             Navigation = navigation;
 
@@ -807,21 +799,20 @@ namespace WordInEnglish.ViewModel
 
         public void SelectLanguage()
         {
-            var language = LocalStorange.GetLocalStorange("language");
-
-            Language = language;
-
+            Language = LocalStorange.GetLocalStorange("language");
             if (Language == "EN")
             {
                 Points = MyLanguages._Points;
                 Answer = MyLanguages._Answer;
                 CheckYourWord = MyLanguages._Check_Your_Word;
+
             }
             else
             {
                 Points = MyLanguages._Puntos;
                 Answer = MyLanguages._Respuesta;
                 CheckYourWord = MyLanguages._Revisa_Tu_Palabra;
+
             }
         }
 
