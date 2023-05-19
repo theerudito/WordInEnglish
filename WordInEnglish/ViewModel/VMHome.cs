@@ -23,14 +23,8 @@ namespace WordInEnglish.ViewModel
         {
             Language = LocalStorange.GetLocalStorange("language");
 
-            if (Language == "EN")
-            {
-                ChangeLanguage();
-            }
-            else
-            {
-                ChangeLanguage();
-            }
+            if (Language == "EN") SelectLanguage();
+            SelectLanguage();
 
             Navigation = navigation;
 
@@ -812,12 +806,14 @@ namespace WordInEnglish.ViewModel
                 Points = MyLanguages._Points;
                 Answer = MyLanguages._Answer;
                 CheckYourWord = MyLanguages._Check_Your_Word;
+                ImageLanguage = ImageSource.FromFile("flag_ES.png");
             }
             else
             {
                 Points = MyLanguages._Puntos;
                 Answer = MyLanguages._Respuesta;
                 CheckYourWord = MyLanguages._Revisa_Tu_Palabra;
+                ImageLanguage = ImageSource.FromFile("flag_EN.png");
             }
         }
 
