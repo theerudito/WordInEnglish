@@ -843,23 +843,30 @@ namespace WordInEnglish.ViewModel
 
         public async Task GoConfig()
         {
-            ShowIntertiscal();
-            if (CrossMTAdmob.Current.IsInterstitialLoaded())
+            if (ValidationInternet.IsConnected())
             {
-                // show interstitial ad
-                CrossMTAdmob.Current.ShowInterstitial();
-                await Navigation.PushAsync(new Config());
-            }
-            else
-            {
-                if (Language == "EN")
+                ShowIntertiscal();
+                if (CrossMTAdmob.Current.IsInterstitialLoaded())
                 {
-                    await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
+                    // show interstitial ad
+                    CrossMTAdmob.Current.ShowInterstitial();
+                    await Navigation.PushAsync(new Config());
                 }
                 else
                 {
-                    await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
+                    if (Language == "EN")
+                    {
+                        await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
+                    }
+                    else
+                    {
+                        await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
+                    }
                 }
+            }
+            else
+            {
+                await Navigation.PushAsync(new Config());
             }
         }
 

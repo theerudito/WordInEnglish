@@ -7,6 +7,7 @@ namespace WordInEnglish.Model
         [Key]
         public int IdES { get; set; }
 
+        [MaxLength(20), Required]
         public string MyWord { get; set; }
     }
 }

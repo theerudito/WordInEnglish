@@ -157,7 +157,7 @@ namespace WordInEnglish.ViewModel
 
         public async Task newWord()
         {
-            if (ValidateFields() == true)
+            if (ValidateFields() == true && MaxLenght() == true)
             {
                 await _context.AddAsync(new WordEN { MyWord = WordEnglish.ToUpper().Trim() });
                 await _context.AddAsync(new WordES { MyWord = WordSpanish.ToUpper().Trim() });
@@ -171,6 +171,41 @@ namespace WordInEnglish.ViewModel
         {
             WordEnglish = string.Empty;
             WordSpanish = string.Empty;
+        }
+
+        public bool MaxLenght()
+        {
+            var wordEnglish = WordEnglish.ToUpper().Trim();
+            var wordSpanish = WordSpanish.ToUpper().Trim();
+
+            // permitido solo 10 caracteres
+            if (wordEnglish.Length > 10)
+            {
+                if (Language == "EN")
+                {
+                    Alerts.LoadAlert("WordInEnglish", "The word must be 10 characters or less", "OK");
+                }
+                else
+                {
+                    Alerts.LoadAlert("WordInEnglish", "La palabra debe ser de 10 caracteres o menos", "SI");
+                }
+                return false;
+            }
+
+            if (wordSpanish.Length > 10)
+            {
+                if (Language == "EN")
+                {
+                    Alerts.LoadAlert("WordInEnglish", "The word must be 10 characters or less", "OK");
+                }
+                else
+                {
+                    Alerts.LoadAlert("WordInEnglish", "La palabra debe ser de 10 caracteres o menos", "SI");
+                }
+                return false;
+            }
+
+            return true;
         }
 
         public bool ValidateFields()
