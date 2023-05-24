@@ -839,7 +839,7 @@ namespace WordInEnglish.ViewModel
 
         public async Task GoConfig()
         {
-            if (ValidationInternet.IsConnected())
+            if (ValidationInternet.IsConnected() == true)
             {
                 ShowIntertiscal();
                 if (CrossMTAdmob.Current.IsInterstitialLoaded())
