@@ -18,12 +18,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Fonts\angrybirds.ttf" />
-    <EmbeddedResource Include="Sound\correct.mp3">
-      <CustomToolNamespace>WordInEnglish</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Sound\error.mp3">
-      <CustomToolNamespace>WordInEnglish</CustomToolNamespace>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Sound\correct.mp3" />
+    <EmbeddedResource Include="Sound\error.mp3" />
   </ItemGroup>
 
   <ItemGroup>

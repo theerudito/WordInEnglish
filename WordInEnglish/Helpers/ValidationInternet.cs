@@ -1,4 +1,6 @@
-﻿using Xamarin.Essentials;
+﻿using Android.Content;
+using Android.Net;
+using Xamarin.Essentials;
 
 namespace WordInEnglish.Helpers
 {
@@ -11,6 +13,18 @@ namespace WordInEnglish.Helpers
                 return true;
             else
                 return false;
+        }
+    }
+
+    public static class ConnectivityHelper
+    {
+        // ver si esta restrindigo el internet en el celular
+
+        public static bool IsInternetAvailable(Context context)
+        {
+            ConnectivityManager connectivityManager = (ConnectivityManager)context.GetSystemService(Context.ConnectivityService);
+            NetworkInfo activeConnection = connectivityManager.ActiveNetworkInfo;
+            return (activeConnection != null) && activeConnection.IsConnected;
         }
     }
 }
