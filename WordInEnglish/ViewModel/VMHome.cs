@@ -888,6 +888,12 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public async Task GoUrl(string url)
+        {
+            var uri = new Uri(url);
+            await Browser.OpenAsync(uri);
+        }
+
         #endregion Methods
 
         #region Commands
@@ -898,6 +904,11 @@ namespace WordInEnglish.ViewModel
         public ICommand btnCheckWordOne => new Command(async () => await CheckWordOne());
         public ICommand btnCheckWordTwo => new Command(async () => await CheckWordTwo());
         public ICommand btnCheckWordThree => new Command(async () => await CheckWordThree());
+
+        public ICommand btnInstagram => new Command(async () => await GoUrl("https://www.instagram.com/theerudito/"));
+        public ICommand btnGitHub => new Command(async () => await GoUrl("https://github.com/theerudito"));
+        public ICommand btnThreads => new Command(async () => await GoUrl("https://www.threads.net/@theerudito"));
+        public ICommand btnTwitter => new Command(async () => await GoUrl("https://twitter.com/theerudito"));
 
         #endregion Commands
     }

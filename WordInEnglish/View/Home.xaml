@@ -8,7 +8,7 @@
         <Grid
             BackgroundColor="#303345"
             ColumnDefinitions="*"
-            RowDefinitions="*,*,*,*,*,*,*, *">
+            RowDefinitions="*,*,*,*,*,*,*,*">
 
             <StackLayout Grid.Row="0" Grid.Column="0">
 
@@ -213,7 +213,49 @@
                 Grid.Row="7"
                 Grid.Column="0"
                 VerticalOptions="Center">
-                <StackLayout>
+                <StackLayout Margin="-15">
+
+                    <Label
+                        Margin="5"
+                        FontFamily="AB"
+                        HorizontalOptions="Center"
+                        Text="Follow Me"
+                        TextColor="white" />
+                    <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                        <ImageButton
+                            Margin="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            Command="{Binding btnInstagram}"
+                            HeightRequest="20"
+                            Source="instagram.png"
+                            WidthRequest="20" />
+                        <ImageButton
+                            Margin="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            Command="{Binding btnGitHub}"
+                            HeightRequest="20"
+                            Source="github.png"
+                            WidthRequest="20" />
+                        <ImageButton
+                            Margin="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            Command="{Binding btnThreads}"
+                            HeightRequest="20"
+                            Source="threads.png"
+                            WidthRequest="20" />
+                        <ImageButton
+                            Margin="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Transparent"
+                            Command="{Binding btnTwitter}"
+                            HeightRequest="20"
+                            Source="twitter.png"
+                            WidthRequest="20" />
+                    </StackLayout>
+
                     <anuncio:Page_Ads />
                 </StackLayout>
             </StackLayout>
