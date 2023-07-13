@@ -6,10 +6,9 @@ namespace WordInEnglish.Helpers
 {
     public class InformationData
     {
-        private Application_ContextDB _dbContext = new Application_ContextDB();
-
         public void WORDEN()
         {
+            var _dbContext = new Application_ContextDB();
             var words = new List<WordEN>
                 {
                     new WordEN { IdEN = 1, MyWord = "HELLO" },
@@ -216,20 +215,20 @@ namespace WordInEnglish.Helpers
                     new WordEN  {   IdEN = 202  ,   MyWord =    "BY ACCIDENT" },
                     new WordEN  {   IdEN = 203  ,   MyWord =    "BY TURNS"    },
                     new WordEN  {   IdEN = 204  ,   MyWord =    "GAINS"   },
-                    new WordEN  {   IdEN = 205  ,   MyWord =    "ACCORDING TO"    },
+                    new WordEN  {   IdEN = 205  ,   MyWord =    "ACCORDING TO"},
                     new WordEN  {   IdEN = 206  ,   MyWord =    "AS A RESULT" },
                     new WordEN  {   IdEN = 207  ,   MyWord =    "BY THE WAY"  },
-                    new WordEN  {   IdEN = 208  ,   MyWord =    "IN SPRITE OF"    },
-                    new WordEN  {   IdEN = 209  ,   MyWord =    "JUST IN CASE"    },
+                    new WordEN  {   IdEN = 208  ,   MyWord =    "IN SPRITE OF"},
+                    new WordEN  {   IdEN = 209  ,   MyWord =    "JUST IN CASE"},
                     new WordEN  {   IdEN = 210  ,   MyWord =    "SPEND TIME"  },
-                    new WordEN  {   IdEN = 211  ,   MyWord =    "NESTED"  },
-                    new WordEN  {   IdEN = 212  ,   MyWord =    "BING"    },
-                    new WordEN  {   IdEN = 213  ,   MyWord =    "THROW"   },
-                    new WordEN  {   IdEN = 214  ,   MyWord =    "ENFORCE" },
-                    new WordEN  {   IdEN = 215  ,   MyWord =    "PLASING" },
-                    new WordEN  {   IdEN = 216  ,   MyWord =    "LOOPS"   },
-                    new WordEN  {   IdEN = 217  ,   MyWord =    "GOTTA GO"    },
-                    new WordEN  {   IdEN = 218  ,   MyWord =    "GO THERE"    },
+                    new WordEN  {   IdEN = 211  ,   MyWord =    "NESTED"},
+                    new WordEN  {   IdEN = 212  ,   MyWord =    "BING"},
+                    new WordEN  {   IdEN = 213  ,   MyWord =    "THROW"},
+                    new WordEN  {   IdEN = 214  ,   MyWord =    "ENFORCE"},
+                    new WordEN  {   IdEN = 215  ,   MyWord =    "PLASING"},
+                    new WordEN  {   IdEN = 216  ,   MyWord =    "LOOPS"},
+                    new WordEN  {   IdEN = 217  ,   MyWord =    "GOTTA GO"},
+                    new WordEN  {   IdEN = 218  ,   MyWord =    "GO THERE"},
                     new WordEN  {   IdEN = 219  ,   MyWord =    "DURING"  },
                     new WordEN  {   IdEN = 220  ,   MyWord =    "TRADEOFF"    },
                     new WordEN  {   IdEN = 221  ,   MyWord =    "HARD"    },
@@ -299,7 +298,7 @@ namespace WordInEnglish.Helpers
                     new WordEN  {   IdEN = 285  ,   MyWord =    "MUSCLE" },
                     new WordEN  {   IdEN = 286  ,   MyWord =    "KNIFE"   },
                     new WordEN  {   IdEN = 287  ,   MyWord =    "KNEE"    },
-                    new WordEN  {   IdEN = 288  ,   MyWord =    "JUST KIDDING"    },
+                    new WordEN  {   IdEN = 288  ,   MyWord =    "JUST KIDDING"},
                     new WordEN  {   IdEN = 289  ,   MyWord =    "I FEEL YOU"  },
                     new WordEN  {   IdEN = 290  ,   MyWord =    "HOLD ON" },
                     new WordEN  {   IdEN = 291  ,   MyWord =    "IN NO TIME"  },
@@ -340,6 +339,7 @@ namespace WordInEnglish.Helpers
 
         public void WORDES()
         {
+            var _dbContext = new Application_ContextDB();
             var words = new List<WordES>
             {
                     new WordES { IdES = 1, MyWord = "HOLA" },
