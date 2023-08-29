@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Plugin.FirebasePushNotification;
 using Plugin.Multilingual;
 using System;
 using WordInEnglish.Application_Context;
@@ -38,13 +37,6 @@ namespace WordInEnglish
 
             MainPage = new NavigationPage(new Home());
 
-            CrossFirebasePushNotification.Current.Subscribe("all");
-            CrossFirebasePushNotification.Current.OnTokenRefresh += Current_OnTokenRefresh;
-        }
-
-        private void Current_OnTokenRefresh(object source, FirebasePushNotificationTokenEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"TOKEN ERUDITO: {e.Token}");
         }
 
         public void getLanguage()

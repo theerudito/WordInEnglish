@@ -1,11 +1,9 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.Gms.Ads;
-using Android.Gms.Common;
 using Android.OS;
 using Android.Runtime;
-using Plugin.FirebasePushNotification;
-using Xamarin.Essentials;
+
 
 namespace WordInEnglish.Droid
 {
@@ -16,7 +14,7 @@ namespace WordInEnglish.Droid
         {
             base.OnCreate(savedInstanceState);
             MobileAds.Initialize(ApplicationContext);
-            FirebasePushNotificationManager.ProcessIntent(this, Intent);
+
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -30,12 +28,6 @@ namespace WordInEnglish.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-        public void IsPlayServicesAvailable()
-        {
-            int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
-            bool isGooglePlayServce = resultCode != ConnectionResult.Success;
-            Preferences.Set("isGooglePlayServce", isGooglePlayServce);
-        }
     }
+
 }
