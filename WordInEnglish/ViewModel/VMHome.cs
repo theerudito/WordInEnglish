@@ -1,5 +1,4 @@
-﻿using MarcTron.Plugin;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +20,7 @@ namespace WordInEnglish.ViewModel
 
         public VMHome(INavigation navigation)
         {
+
             Language = LocalStorange.GetLocalStorange("language");
 
             if (Language == "EN") SelectLanguage();
@@ -51,6 +51,7 @@ namespace WordInEnglish.ViewModel
         private string _labeltextResult;
         private string _inputTextEntry;
         private int _IdWord;
+        private string _follow;
 
         private string _wordOne;
         private string _wordTwo;
@@ -184,6 +185,12 @@ namespace WordInEnglish.ViewModel
         {
             get => _colorFrameThree;
             set => SetValue(ref _colorFrameThree, value);
+        }
+
+        public string Follow
+        {
+            get => _follow;
+            set => SetValue(ref _follow, value);
         }
 
         private int[] IdWordData = { 1, 2, 3 };
@@ -807,6 +814,7 @@ namespace WordInEnglish.ViewModel
                 Answer = MyLanguages._Answer;
                 CheckYourWord = MyLanguages._Check_Your_Word;
                 ImageLanguage = ImageSource.FromFile("flag_ES.png");
+                Follow = MyLanguages._FollowEN;
             }
             else
             {
@@ -814,6 +822,7 @@ namespace WordInEnglish.ViewModel
                 Answer = MyLanguages._Respuesta;
                 CheckYourWord = MyLanguages._Revisa_Tu_Palabra;
                 ImageLanguage = ImageSource.FromFile("flag_EN.png");
+                Follow = MyLanguages._FollowES;
             }
         }
 
@@ -841,11 +850,9 @@ namespace WordInEnglish.ViewModel
         {
             if (ValidationInternet.IsConnected() == true)
             {
-                ShowIntertiscal();
-                if (CrossMTAdmob.Current.IsInterstitialLoaded())
+                Ads.ShowIntertiscal();
+                if (Ads.IsIntertiscalLoaded() == true)
                 {
-                    // show interstitial ad
-                    CrossMTAdmob.Current.ShowInterstitial();
                     await Navigation.PushAsync(new Config());
                 }
                 else
@@ -863,28 +870,6 @@ namespace WordInEnglish.ViewModel
             else
             {
                 await Navigation.PushAsync(new Config());
-            }
-        }
-
-        public void ShowIntertiscal()
-        {
-            var idIntersticial = "ca-app-pub-7633493507240683/8231562165";
-
-            CrossMTAdmob.Current.LoadInterstitial(idIntersticial);
-        }
-
-        public void ShowVideoAds()
-        {
-            var idVideoIntersticial = "ca-app-pub-7633493507240683/9925478281";
-
-            // Cargar el anuncio de video recompensado
-            CrossMTAdmob.Current.LoadRewardedVideo(idVideoIntersticial);
-
-            // Verificar si el anuncio está listo para mostrarse
-            if (CrossMTAdmob.Current.IsRewardedVideoLoaded())
-            {
-                // Mostrar el anuncio de video recompensado
-                CrossMTAdmob.Current.ShowRewardedVideo();
             }
         }
 

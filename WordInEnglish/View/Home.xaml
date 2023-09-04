@@ -31,7 +31,7 @@
                             BorderColor="Transparent"
                             Command="{Binding btnGoConfig}"
                             HeightRequest="25"
-                            Source="configuration.png"
+                            Source="add.png"
                             WidthRequest="25" />
                     </StackLayout>
 
@@ -43,7 +43,7 @@
                         HasShadow="True">
                         <Label
                             FontAttributes="Bold"
-                            FontFamily="angrybirds"
+                            FontFamily="AB"
                             FontSize="18"
                             HorizontalTextAlignment="Center"
                             Text="{Binding Points}"
@@ -103,7 +103,7 @@
                     </Frame.GestureRecognizers>
                     <Label
                         FontAttributes="Bold"
-                        FontFamily="angrybirds"
+                        FontFamily="AB"
                         HorizontalOptions="Center"
                         Text="{Binding WordOne}"
                         TextColor="Black"
@@ -128,7 +128,7 @@
                         </Frame.GestureRecognizers>
                         <Label
                             FontAttributes="Bold"
-                            FontFamily="angrybirds"
+                            FontFamily="AB"
                             HorizontalOptions="Center"
                             Text="{Binding WordTwo}"
                             TextColor="Black"
@@ -186,7 +186,7 @@
                     HasShadow="True">
                     <Entry
                         FontAttributes="Bold"
-                        FontFamily="angrybirds"
+                        FontFamily="AB"
                         Placeholder="{Binding Answer}"
                         Text="{Binding EntryWord}" />
                 </Frame>
@@ -202,7 +202,7 @@
                     BackgroundColor="GreenYellow"
                     Command="{Binding btnCheck}"
                     CornerRadius="20"
-                    FontFamily="angrybirds"
+                    FontFamily="AB"
                     FontSize="20"
                     HeightRequest="60"
                     Text="{Binding CheckYourWord}"
@@ -219,7 +219,7 @@
                         Margin="5"
                         FontFamily="AB"
                         HorizontalOptions="Center"
-                        Text="Follow Me"
+                        Text="{Binding Follow}"
                         TextColor="white" />
                     <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                         <ImageButton

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MarcTron.Plugin;
+using Microsoft.EntityFrameworkCore;
 using Plugin.Multilingual;
 using System;
 using WordInEnglish.Application_Context;
@@ -12,6 +13,8 @@ namespace WordInEnglish
     {
         public App()
         {
+            Ads.ShowRewardedVideo();
+
             getLanguage();
 
             var _dbContext = new Application_ContextDB();
@@ -34,6 +37,11 @@ namespace WordInEnglish
             }
 
             InitializeComponent();
+
+            CrossMTAdmob.Current.OnRewardedVideoAdLoaded += (s, args) =>
+            {
+                CrossMTAdmob.Current.ShowRewardedVideo();
+            };
 
             MainPage = new NavigationPage(new Home());
 
