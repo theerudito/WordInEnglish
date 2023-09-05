@@ -3,7 +3,7 @@ using Android.Content.PM;
 using Android.Gms.Ads;
 using Android.OS;
 using Android.Runtime;
-
+using Plugin.FirebasePushNotification;
 
 namespace WordInEnglish.Droid
 {
@@ -13,13 +13,16 @@ namespace WordInEnglish.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             MobileAds.Initialize(ApplicationContext);
 
+            FirebasePushNotificationManager.ProcessIntent(this, Intent);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             LoadApplication(new App());
+
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

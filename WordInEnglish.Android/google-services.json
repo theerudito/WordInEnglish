@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "591065169927",
+    "project_id": "xamarinbyerudito",
+    "storage_bucket": "xamarinbyerudito.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591065169927:android:5938112de766eff39e2aa2",
+        "android_client_info": {
+          "package_name": "com.byErudito.wordinenglish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591065169927-835v73rpuhrhek8iclr913j99hf9vjv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKTdrIzdURBTZGQ63g67xtro5mdOiPxGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591065169927-835v73rpuhrhek8iclr913j99hf9vjv4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

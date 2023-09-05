@@ -39,6 +39,7 @@ namespace WordInEnglish.ViewModel
             SelectWord();
 
             Score();
+
         }
 
         #endregion Constructor
