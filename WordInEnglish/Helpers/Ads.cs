@@ -9,13 +9,11 @@ namespace WordInEnglish.Helpers
             var idIntersticial = "ca-app-pub-7633493507240683/8231562165";
 
             CrossMTAdmob.Current.LoadInterstitial(idIntersticial);
-
-            CrossMTAdmob.Current.ShowInterstitial();
         }
 
         public static bool IsIntertiscalLoaded()
         {
-            return CrossMTAdmob.Current.IsInterstitialLoaded();
+            return CrossMTAdmob.Current.IsInterstitialLoaded() ? true : false;
         }
 
         public static void ShowRewardedVideo()
@@ -23,13 +21,11 @@ namespace WordInEnglish.Helpers
             var idVideo = "ca-app-pub-7633493507240683/9925478281";
 
             CrossMTAdmob.Current.LoadRewardedVideo(idVideo);
-
-            CrossMTAdmob.Current.ShowRewardedVideo();
         }
 
         public static bool IsVideoLoaded()
         {
-            return CrossMTAdmob.Current.IsRewardedVideoLoaded();
+            return CrossMTAdmob.Current.IsRewardedVideoLoaded() ? true : false;
         }
 
     }

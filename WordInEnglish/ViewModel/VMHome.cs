@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MarcTron.Plugin;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -849,31 +850,30 @@ namespace WordInEnglish.ViewModel
 
         public async Task GoConfig()
         {
-            await Navigation.PushAsync(new Config());
-
-            //if (ValidationInternet.IsConnected() == true)
-            //{
-            //    Ads.ShowIntertiscal();
-            //    if (Ads.IsIntertiscalLoaded() == true)
-            //    {
-            //        await Navigation.PushAsync(new Config());
-            //    }
-            //    else
-            //    {
-            //        if (Language == "EN")
-            //        {
-            //            await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
-            //        }
-            //        else
-            //        {
-            //            await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    await Navigation.PushAsync(new Config());
-            //}
+            if (ValidationInternet.IsConnected() == true)
+            {
+                Ads.ShowIntertiscal();
+                if (Ads.IsIntertiscalLoaded() == true)
+                {
+                    CrossMTAdmob.Current.ShowInterstitial();
+                    await Navigation.PushAsync(new Config());
+                }
+                else
+                {
+                    if (Language == "EN")
+                    {
+                        await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
+                    }
+                    else
+                    {
+                        await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
+                    }
+                }
+            }
+            else
+            {
+                await Navigation.PushAsync(new Config());
+            }
         }
 
         public async Task GoUrl(string url)

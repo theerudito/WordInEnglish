@@ -14,8 +14,9 @@ namespace WordInEnglish
     {
         public App()
         {
-            //Ads.ShowRewardedVideo();
+            Ads.ShowRewardedVideo();
 
+            getLanguage();
 
             var _dbContext = new Application_ContextDB();
             var _data = new InformationData();
@@ -38,7 +39,6 @@ namespace WordInEnglish
 
             InitializeComponent();
 
-            getLanguage();
 
             CrossMTAdmob.Current.OnRewardedVideoAdLoaded += (s, args) =>
             {
