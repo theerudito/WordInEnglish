@@ -862,7 +862,7 @@ namespace WordInEnglish.ViewModel
                 {
                     if (Language == "EN")
                     {
-                        await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
+                        await Alerts.LoadAlert("WordInEnglish", "Loading Ads Wait", "OK");
                     }
                     else
                     {
