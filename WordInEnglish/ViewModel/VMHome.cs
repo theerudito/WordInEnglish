@@ -849,29 +849,31 @@ namespace WordInEnglish.ViewModel
 
         public async Task GoConfig()
         {
-            if (ValidationInternet.IsConnected() == true)
-            {
-                Ads.ShowIntertiscal();
-                if (Ads.IsIntertiscalLoaded() == true)
-                {
-                    await Navigation.PushAsync(new Config());
-                }
-                else
-                {
-                    if (Language == "EN")
-                    {
-                        await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
-                    }
-                    else
-                    {
-                        await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
-                    }
-                }
-            }
-            else
-            {
-                await Navigation.PushAsync(new Config());
-            }
+            await Navigation.PushAsync(new Config());
+
+            //if (ValidationInternet.IsConnected() == true)
+            //{
+            //    Ads.ShowIntertiscal();
+            //    if (Ads.IsIntertiscalLoaded() == true)
+            //    {
+            //        await Navigation.PushAsync(new Config());
+            //    }
+            //    else
+            //    {
+            //        if (Language == "EN")
+            //        {
+            //            await Alerts.LoadAlert("WordInEnglish", "Loading Ad Wait", "OK");
+            //        }
+            //        else
+            //        {
+            //            await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    await Navigation.PushAsync(new Config());
+            //}
         }
 
         public async Task GoUrl(string url)
