@@ -9,6 +9,25 @@ namespace WordInEnglish.Helpers
             var idIntersticial = "ca-app-pub-7633493507240683/8231562165";
 
             CrossMTAdmob.Current.LoadInterstitial(idIntersticial);
+
+            CrossMTAdmob.Current.OnInterstitialLoaded += (sender, args) =>
+            {
+                CrossMTAdmob.Current.ShowInterstitial();
+            };
+        }
+
+
+        public static bool CloseIntertiscal()
+        {
+            bool isClosed = false;
+
+            CrossMTAdmob.Current.OnInterstitialClosed += (sender, args) =>
+            {
+                ShowIntertiscal();
+                isClosed = true;
+            };
+
+            return isClosed;
         }
 
         public static bool IsIntertiscalLoaded()

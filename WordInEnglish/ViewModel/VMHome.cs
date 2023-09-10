@@ -1,5 +1,4 @@
-﻿using MarcTron.Plugin;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +53,7 @@ namespace WordInEnglish.ViewModel
         private string _inputTextEntry;
         private int _IdWord;
         private string _follow;
+        private string _addWord;
 
         private string _wordOne;
         private string _wordTwo;
@@ -141,6 +141,15 @@ namespace WordInEnglish.ViewModel
             }
         }
 
+        public string AddWord
+        {
+            get { return _addWord; }
+            set
+            {
+                _addWord = value;
+                OnPropertyChanged();
+            }
+        }
         public string WordOne
         {
             get { return _wordOne; }
@@ -817,6 +826,8 @@ namespace WordInEnglish.ViewModel
                 CheckYourWord = MyLanguages._Check_Your_Word;
                 ImageLanguage = ImageSource.FromFile("flag_ES.png");
                 Follow = MyLanguages._FollowEN;
+                AddWord = MyLanguages._addWordEN;
+
             }
             else
             {
@@ -825,54 +836,37 @@ namespace WordInEnglish.ViewModel
                 CheckYourWord = MyLanguages._Revisa_Tu_Palabra;
                 ImageLanguage = ImageSource.FromFile("flag_EN.png");
                 Follow = MyLanguages._FollowES;
+                AddWord = MyLanguages._addWordES;
             }
         }
 
-        public void VibrateDevice()
-        {
-            try
-            {
-                Vibration.Vibrate();
-
-                // Or use specified time
-                var duration = TimeSpan.FromSeconds(1);
-                Vibration.Vibrate(duration);
-            }
-            catch (FeatureNotSupportedException ex)
-            {
-                // Feature not supported on device
-            }
-            catch (Exception ex)
-            {
-                // Other error has occurred.
-            }
-        }
 
         public async Task GoConfig()
         {
             if (ValidationInternet.IsConnected() == true)
             {
-                Ads.ShowIntertiscal();
-                if (Ads.IsIntertiscalLoaded() == true)
+                if (Language == "EN")
                 {
-                    CrossMTAdmob.Current.ShowInterstitial();
-                    await Navigation.PushAsync(new Config());
+                    var result = await DisplayAlert("WordInEnglish", "Do you want to see an ad to unlock the configuration?", "Yes", "No");
+                    if (result == true)
+                    {
+                        Ads.ShowIntertiscal();
+                        await Navigation.PushAsync(new Config());
+                    }
                 }
                 else
                 {
-                    if (Language == "EN")
+                    var result = await DisplayAlert("WordInEnglish", "¿Quieres ver un anuncio para desbloquear la configuración?", "SI", "NO");
+                    if (result == true)
                     {
-                        await Alerts.LoadAlert("WordInEnglish", "Loading Ads Wait", "OK");
-                    }
-                    else
-                    {
-                        await Alerts.LoadAlert("WordInEnglish", "Cargando Anuncio Espere", "SI");
+                        Ads.ShowIntertiscal();
                     }
                 }
             }
             else
             {
                 await Navigation.PushAsync(new Config());
+
             }
         }
 

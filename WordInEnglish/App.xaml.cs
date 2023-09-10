@@ -1,5 +1,4 @@
-﻿using MarcTron.Plugin;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Plugin.FirebasePushNotification;
 using Plugin.Multilingual;
 using System;
@@ -14,7 +13,7 @@ namespace WordInEnglish
     {
         public App()
         {
-            Ads.ShowRewardedVideo();
+            Ads.ShowIntertiscal();
 
             getLanguage();
 
@@ -39,11 +38,11 @@ namespace WordInEnglish
 
             InitializeComponent();
 
+            //CrossMTAdmob.Current.OnInterstitialLoaded += (s, args) =>
+            //{
+            //    CrossMTAdmob.Current.ShowInterstitial();
+            //};
 
-            CrossMTAdmob.Current.OnRewardedVideoAdLoaded += (s, args) =>
-            {
-                CrossMTAdmob.Current.ShowRewardedVideo();
-            };
 
             CrossFirebasePushNotification.Current.OnTokenRefresh += (s, p) =>
             {
