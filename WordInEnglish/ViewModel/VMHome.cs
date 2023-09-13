@@ -860,6 +860,7 @@ namespace WordInEnglish.ViewModel
                     if (result == true)
                     {
                         Ads.ShowIntertiscal();
+                        await Navigation.PushAsync(new Config());
                     }
                 }
             }
